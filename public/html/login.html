@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
 <body>
-<script type="text/javascript" src="./logIn.js"></script>
-
-<form>
-  <p>Enter your name:</p>
-  <input id='name' type="text">
-  <br><br>
-  <input id="button" onclick="showName()" type="button" value="Log In">
-</form> 
+<script type="text/javascript" src="../javascript/logIn.js"></script>
+	<h1>Bluff</h1>
+	<form method="POST" name="logInForm"  >
+		<input id="name" type="text" name="name">
+		<input id = "submit" onclick="setTimeout(setNameCookie,1),playerMessage('logInForm','message')" type="Submit" value="Player LogIn">
+		<p>
+			<div id="message"></div>
+		</p>
+	</form> 
 </body>
 </html>
