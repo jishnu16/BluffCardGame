@@ -17,4 +17,4 @@ var onReady = function(){
 	$("#submit1").click(requestToJoinIngame)
 	var interval = setInterval(requestForUpdate,5000)
 }
-$(document).ready(onReady)
+$(document).ready(onReady);
