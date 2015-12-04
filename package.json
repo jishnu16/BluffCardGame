@@ -1,0 +1,29 @@
+{
+  "name": "bluffcardgame",
+  "version": "1.0.0",
+  "description": "",
+  "main": "routes.js",
+  "scripts": {
+    "test": "mocha --recursive",
+    "min": "mocha -R min --recursive",
+    "watch": "mocha -R min --watch --recursive",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jishnu16/BluffCardGame.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jishnu16/BluffCardGame/issues"
+  },
+  "homepage": "https://github.com/jishnu16/BluffCardGame#readme",
+  "dependencies": {
+    "lodash": "^3.10.1"
+  },
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "mocha": "^2.3.4"
+  }
+}
