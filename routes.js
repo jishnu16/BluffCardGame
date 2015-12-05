@@ -1,7 +1,9 @@
 var fs = require('fs');
 var querystring = require('querystring');
 var players = [];
+var playerWithHand = [];
 var isStarted = false;
+var deckLib = require('./public/javascript/deck.js').lib;
 
 var serveLoginPage = function(req,res,next){
 	req.url = '/html/login.html';
@@ -32,6 +34,11 @@ var notAllowed = function(req ,res){
 	res.end('not allowed');
 };
 
+var startGame = function(){
+	var shuffledCards = deckLib.shuffle(deckLib.generateCards());
+	playerWithHand = deckLib.distributeCardsToPlayersHand(shuffledCards,players);
+};
+
 var serveWaitingMessage = function(req,res,name){
 	var message = '<h2>'+name+' your registration successful</h2><h3>Waiting for other player<h>';
 	res.end(message);
@@ -49,13 +56,14 @@ var isJoined = function(req,res){
 };
 
 var joinPlayer = function(req,res,name){
-	res.writeHead(200 ,{'Set-Cookie': name});
+	res.writeHead(200 ,{'Set-Cookie':name});
 	players.push(name);
 	console.log(players);
 	if(players.length < 3)
 		serveWaitingMessage(req,res,name);
 	else{
 		isStarted = true;
+		startGame();
 		res.end(JSON.stringify({isStarted : true}));
 	}
 };
@@ -77,15 +85,22 @@ var requestForJoining = function(req,res,next){
 var isPlayer = function(req){
 	return players.some(function(player){
 		return player == req.headers.cookie;
-	})
+	});
 };
+var serveCards = function(req,res){
+	var playerHand = playerWithHand.filter(function(player){
+		if((req.headers.cookie == player.name) && isPlayer(req))
+			return player;
+	});
+	playerHand ? res.end(JSON.stringify(playerHand[0].hand)) : res.end();
+}
 var serveUpdate = function(req,res){
-	if(isStarted && isPlayer(req))
+	if(isStarted && isPlayer(req)){
 		res.end(JSON.stringify({ isStarted : true }));
+	}
 	else
 		res.end();
 };
-
 
 exports.post_handlers = [
 	{path : '^/joingame$' , handler : requestForJoining},
@@ -93,10 +108,10 @@ exports.post_handlers = [
 	{path : '',handler : notAllowed}
 ];
 
-
 exports.get_handlers = [
 	{path: '^/$', handler: serveLoginPage},
 	{path: '^/update$' , handler:serveUpdate},
+	{path: '^/html/handCards$',handler:serveCards},
 	{path: '', handler: serveStaticFile},
 	{path: '', handler: fileNotFound}
 ];

@@ -1,13 +1,14 @@
-var handCardsData = function(handedCards){
-	var handedCards = JSON.parse(handedCards);
+var handCardsData = function(cards){
+	var handedCards = JSON.parse(cards);
 	return handedCards.map(function(singleCard){
-		return '<td>' + '<img src = "../images/Playing\ Cards/SVG-cards-1.3/' +singleCard+'">'+'</td>'
+		return '<td>' + '<object data="../images/Playing_Cards/SVG-cards-1.3/'+singleCard.href+'"'+' type="image/svg+xml">'+'</object>'+'</td>'
 	});
 }
-var onload = function(){
+var onLoad = function(){
 	$.get('handCards',function(data){
 		$('#playerHand').html(handCardsData(data));
 	});
 }
 
 $(document).ready(onLoad);
+

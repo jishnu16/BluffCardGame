@@ -1,4 +1,3 @@
-// var deckLib = require('/deck.js').lib;
 var lib = {};
 exports.lib = lib;
 

@@ -3,14 +3,12 @@ var playerLib = require('../public/javascript/player.js').lib;
 var expect = require('chai').expect;
 var Card = new deckLib.Card;
 var players = ['suman','surajit','jishnu'];
-// deckLib.distributeCardsToPlayersHand(deckLib.generateCards(),players)
 
 
 describe('Deck',function(){
 	it('should have name and suit',function(){
-		expect(Card).to.have.all.keys('name','suit');
+		expect(Card).to.have.all.keys('name','suit','href');
 	});
-
 	it('Card should return an object',function(){
 		expect(Card).to.be.a('object');
 	});
@@ -23,12 +21,12 @@ describe('Deck',function(){
 		expect(deckLib.shuffle(deckLib.generateCards()).length).to.equal(52);
 	});
 
-	it('"ceratingPlayerHand" should creates hand for 3 player',function(){
+	it('"creatingPlayerHand" should creates hand for 3 player',function(){
 		var cards = deckLib.generateCards();
-		expect(deckLib.ceratingPlayerHand(cards).length).to.equal(3);
-		expect(deckLib.ceratingPlayerHand(cards)[0].length).to.equal(17);
-		expect(deckLib.ceratingPlayerHand(cards)[1].length).to.equal(17);
-		expect(deckLib.ceratingPlayerHand(cards)[2].length).to.equal(17);
+		expect(deckLib.creatingPlayerHand(cards).length).to.equal(3);
+		expect(deckLib.creatingPlayerHand(cards)[0].length).to.equal(17);
+		expect(deckLib.creatingPlayerHand(cards)[1].length).to.equal(17);
+		expect(deckLib.creatingPlayerHand(cards)[2].length).to.equal(17);
 
 	});
 
@@ -40,3 +38,11 @@ describe('Deck',function(){
 	})
 
 });	
+
+
+describe("card",function(){
+	it('have a toString function it will return a string of card name along with suit',function(){
+		var card = new deckLib.Card(10,'hearts');
+		expect(card.href).to.equal('10_of_hearts.svg'); 
+	})
+})
