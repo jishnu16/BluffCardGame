@@ -1,13 +1,14 @@
 var deckLib = require('../public/javascript/deck.js').lib;
 var playerLib = require('../public/javascript/player.js').lib;
 var expect = require('chai').expect;
-var Card = new deckLib.Card;
+
 var players = ['suman','surajit','jishnu'];
 
 
 describe('Deck',function(){
+	var Card = new deckLib.Card('ace','hearts');
 	it('should have name and suit',function(){
-		expect(Card).to.have.all.keys('name','suit','href');
+		expect(Card).to.have.all.keys('name','suit','href','id');
 	});
 	it('Card should return an object',function(){
 		expect(Card).to.be.a('object');
@@ -41,8 +42,16 @@ describe('Deck',function(){
 
 
 describe("card",function(){
-	it('have a toString function it will return a string of card name along with suit',function(){
+	it('have a href function it will return a string of card name along with suit',function(){
 		var card = new deckLib.Card(10,'hearts');
 		expect(card.href).to.equal('10_of_hearts.svg'); 
 	})
+	it('have a id function it will return a string of card 10 along with suit hearts',function(){
+		var card = new deckLib.Card(10,'hearts');
+		expect(card.id).to.equal('H10'); 
+	});
+	it('have a id function it will return a string of card ace along with suit hearts',function(){
+		var card = new deckLib.Card('ace','hearts');
+		expect(card.id).to.equal('HA');
+	});
 })

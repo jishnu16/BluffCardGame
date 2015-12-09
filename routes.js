@@ -101,9 +101,31 @@ var serveUpdate = function(req,res){
 	else
 		res.end();
 };
+var requestForPlayingCards = function(req,res,next){
+	var data = '';
+	req.on('data',function(chunk){
+		data+=chunk;
+	})
+	req.on('end',function(){
+		if(isPlayer(req)){
+			var currentPlayer = playerWithHand.filter(function(player){
+				if (player.name == req.headers.cookie)
+					return player;
+			});
+		}
+		deckLib.removePlayedCardsFromPlayerHand(currentPlayer[0],JSON.parse(data));
+		res.end();
+	});
+};
+var getStatus = function(req,res){
+	if(isPlayer(req)){
+		serveCards(req,res);
+	}
+}
 
 exports.post_handlers = [
 	{path : '^/joingame$' , handler : requestForJoining},
+	{path : '^/html/playCard$' , handler : requestForPlayingCards},
 	{path: '', handler: serveStaticFile},
 	{path : '',handler : notAllowed}
 ];
@@ -111,6 +133,7 @@ exports.post_handlers = [
 exports.get_handlers = [
 	{path: '^/$', handler: serveLoginPage},
 	{path: '^/update$' , handler:serveUpdate},
+	{path: '^/html/getStatus$' , handler:getStatus},
 	{path: '^/html/handCards$',handler:serveCards},
 	{path: '', handler: serveStaticFile},
 	{path: '', handler: fileNotFound}

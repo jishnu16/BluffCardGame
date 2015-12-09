@@ -2,3 +2,23 @@
 	position: absolute;
     bottom: 0;
 }
+.spades {
+	height: 150;
+	width: 65;
+	border: 2px solid black;
+}
+.diamonds {
+	height: 150;
+	width: 65;
+	border: 2px solid red;
+}
+.clubs {
+	height: 150;
+	width: 65;
+	border: 2px solid black;
+}
+.hearts {
+	height: 150;
+	width: 65;
+	border: 2px solid red;
+}

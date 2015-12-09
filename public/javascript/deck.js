@@ -5,10 +5,16 @@ exports.lib = lib;
 var setHref = function(name,suit){
 	return name + '_' + 'of' + '_' +suit+'.svg';
 }
+var generateCardId = function(name,suit){
+	if(typeof(name) == 'string')
+		return suit[0].toUpperCase() + name[0].toUpperCase();
+	return suit[0].toUpperCase() + name;
+};
 lib.Card = function(nameOfCards,suit){
 	this.name = nameOfCards;
 	this.suit = suit;
-	this.href = setHref(nameOfCards,suit)
+	this.href = setHref(nameOfCards,suit);
+	this.id = generateCardId(nameOfCards,suit);
 };
 
 lib.generateCards = function(){
@@ -50,4 +56,10 @@ lib.creatingPlayerHand = function(cards){
 	return allHand;
 };
 
+lib.removePlayedCardsFromPlayerHand = function(player,idsOfPlayedCards){
+	player.hand = player.hand.filter(function(obj){
+		return idsOfPlayedCards.indexOf(obj.id) === -1;
+	})
+	return player;
+}
 
