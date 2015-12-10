@@ -5,6 +5,13 @@ var handCardsData = function(cards){
 	});
 }
 var getGameStatus = function(){
+	$.get('serveTurnMessage',function(data){
+		var turnMessage = JSON.parse(data);
+		// if(turnMessage == false){
+		// 	$('#playerHand').off('click');
+		// }
+		alert(turnMessage);
+	})
 	$.get('getStatus',function(data){
 		var card = JSON.parse(data);
 		$('#playerHand').html(handCardsData(data));

@@ -61,5 +61,16 @@ lib.removePlayedCardsFromPlayerHand = function(player,idsOfPlayedCards){
 		return idsOfPlayedCards.indexOf(obj.id) === -1;
 	})
 	return player;
-}
+};
+
+lib.changePlayerTurn = function(){
+	var count = 1;
+	return function(players){
+		players[(count)-1].isturn = false;
+		count = count%3;
+		players[count].isturn = true;
+		count++;
+		return players
+	}
+}();
 

@@ -37,6 +37,7 @@ var notAllowed = function(req ,res){
 var startGame = function(){
 	var shuffledCards = deckLib.shuffle(deckLib.generateCards());
 	playerWithHand = deckLib.distributeCardsToPlayersHand(shuffledCards,players);
+	playerWithHand[0].isturn = true;
 };
 
 var serveWaitingMessage = function(req,res,name){
@@ -112,15 +113,32 @@ var requestForPlayingCards = function(req,res,next){
 				if (player.name == req.headers.cookie)
 					return player;
 			});
+			deckLib.removePlayedCardsFromPlayerHand(currentPlayer[0],JSON.parse(data));
+			deckLib.changePlayerTurn(playerWithHand);
 		}
-		deckLib.removePlayedCardsFromPlayerHand(currentPlayer[0],JSON.parse(data));
 		res.end();
 	});
 };
+var findCurrentPlayer = function(req){
+	var currentPlayer = playerWithHand.filter(function(player){
+				if (player.name == req.headers.cookie)
+					return player;
+			});
+	return currentPlayer[0];
+}
 var getStatus = function(req,res){
 	if(isPlayer(req)){
 		serveCards(req,res);
 	}
+};
+
+var serveTurnMessage = function(req,res){
+	if(isPlayer(req)){
+		var currentPlayer = findCurrentPlayer(req)
+		res.end(JSON.stringify(currentPlayer.isturn))
+	}
+	res.end();
+		
 }
 
 exports.post_handlers = [
@@ -131,6 +149,7 @@ exports.post_handlers = [
 ];
 
 exports.get_handlers = [
+	{path: '^/html/serveTurnMessage$',handler:serveTurnMessage},
 	{path: '^/$', handler: serveLoginPage},
 	{path: '^/update$' , handler:serveUpdate},
 	{path: '^/html/getStatus$' , handler:getStatus},

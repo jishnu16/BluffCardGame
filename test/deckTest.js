@@ -4,7 +4,6 @@ var expect = require('chai').expect;
 
 var players = ['suman','surajit','jishnu'];
 
-
 describe('Deck',function(){
 	var Card = new deckLib.Card('ace','hearts');
 	it('should have name and suit',function(){
@@ -55,3 +54,4 @@ describe("card",function(){
 		expect(card.id).to.equal('HA');
 	});
 })
+
