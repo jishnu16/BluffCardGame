@@ -4,6 +4,8 @@ var expect = require('chai').expect;
 
 var players = ['suman','surajit','jishnu'];
 
+
+
 describe('Deck',function(){
 	var Card = new deckLib.Card('ace','hearts');
 	it('should have name and suit',function(){
@@ -41,17 +43,38 @@ describe('Deck',function(){
 
 
 describe("card",function(){
-	it('have a href function it will return a string of card name along with suit',function(){
-		var card = new deckLib.Card(10,'hearts');
-		expect(card.href).to.equal('10_of_hearts.svg'); 
+	describe('setHref',function(){
+		it('should generate a string that contain svg link by name and suit',function(){
+			var card = new deckLib.Card(10,'hearts');
+			expect(card.href).to.equal('10_of_hearts.svg'); 
+		})
 	})
-	it('have a id function it will return a string of card 10 along with suit hearts',function(){
+	describe('id',function(){
+		it('should generate a unique card id by card name and suit',function(){
+			var card = new deckLib.Card(10,'hearts');
+			expect(card.id).to.equal('H10'); 
+		})
+	})
+	it('should has four field',function(){
 		var card = new deckLib.Card(10,'hearts');
-		expect(card.id).to.equal('H10'); 
-	});
-	it('have a id function it will return a string of card ace along with suit hearts',function(){
-		var card = new deckLib.Card('ace','hearts');
-		expect(card.id).to.equal('HA');
-	});
+		expect(Object.keys(card).length).to.equal(4)
+	})
+})
+describe('changePlayerTurn',function(){
+	it('')
 })
 
+describe('removePlayedCardsFromPlayerHand',function(){
+	it('should remove card from player hand',function(){
+		var player = {hand:[{id:'H7'},{id:'H10'},{id:'H9'},{id:'H8'}]};
+		expect(deckLib.removePlayedCardsFromPlayerHand(player,['H9','H7'])).to.eql({hand:[{id:'H10'},{id:'H8'}]})
+	})
+	it('should remove card from player hand',function(){
+		var player = {hand:[{id:'H7'},{id:'H10'}]};
+		expect(deckLib.removePlayedCardsFromPlayerHand(player,['H10','H7'])).to.eql({hand:[]})
+	})
+	it('should not remove card from player hand when the id array is empty',function(){
+		var player = {hand:[{id:'H7'},{id:'H10'}]};
+		expect(deckLib.removePlayedCardsFromPlayerHand(player,[])).to.eql({hand:[{id:'H7'},{id:'H10'}]})
+	})
+})
