@@ -102,6 +102,7 @@ var serveUpdate = function(req,res){
 	else
 		res.end();
 };
+var playedCards = [];
 var requestForPlayingCards = function(req,res,next){
 	var data = '';
 	req.on('data',function(chunk){
@@ -116,6 +117,7 @@ var requestForPlayingCards = function(req,res,next){
 			deckLib.removePlayedCardsFromPlayerHand(currentPlayer[0],JSON.parse(data));
 			deckLib.changePlayerTurn(playerWithHand);
 		}
+		playedCards.push({name: currentPlayer[0].name,noOfPlayedCards : JSON.parse(data).length});
 		res.end();
 	});
 };
@@ -127,9 +129,8 @@ var findCurrentPlayer = function(req){
 	return currentPlayer[0];
 }
 var getStatus = function(req,res){
-	if(isPlayer(req)){
+	if(isPlayer(req))
 		serveCards(req,res);
-	}
 };
 
 var serveTurnMessage = function(req,res){
@@ -139,6 +140,12 @@ var serveTurnMessage = function(req,res){
 	}
 	res.end();
 		
+};
+
+var serveTableUpdate = function(req,res,next){
+	if(isPlayer(req))
+		res.end(JSON.stringify(playedCards));
+	res.end();
 }
 
 exports.post_handlers = [
@@ -154,6 +161,7 @@ exports.get_handlers = [
 	{path: '^/update$' , handler:serveUpdate},
 	{path: '^/html/getStatus$' , handler:getStatus},
 	{path: '^/html/handCards$',handler:serveCards},
+	{path: '^/html/tableData$',handler:serveTableUpdate},
 	{path: '', handler: serveStaticFile},
 	{path: '', handler: fileNotFound}
 ];

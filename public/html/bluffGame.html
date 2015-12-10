@@ -9,12 +9,20 @@
 		<title>BluffTable</title>		
 	</head>
 	<body >
-		<h1>Welcome To Bluff</h1>
+		<h1 id="header">Welcome To Bluff</h1>
 		<div id="playerhands">		
-		<table>
-			<tr id="playerHand"></tr>
-		</table>	
+			<table>
+				<tr id="playerHand"></tr>
+			</table>
+		</div>
+		<div id ='status'>
+			<h3 >Game Status</h3>
+			<table id = 'logTable'>
+			</table>	
 		</div>
 		<button type="button" id="playCard">Click To Play</button>	
+		<button type="button" id="pass">Click To Pass</button>	
+		<button type="button" id="bluff">Click For Bluff</button>	
+
 	</body>
 </html>
