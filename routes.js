@@ -126,7 +126,8 @@ var requestForPlayingCards = function(req,res,next){
 
 var requestForPass = function(req,res){
 	req.on('end',function(){
-			deckLib.changePlayerTurn(playerWithHand);
+		playerActionLog.push({name:req.headers.cookie,action:'pass'});
+		deckLib.changePlayerTurn(playerWithHand);
 	})
 	res.end();
 };
