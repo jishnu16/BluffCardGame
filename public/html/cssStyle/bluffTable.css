@@ -28,6 +28,11 @@
 	right: 203px;
 	bottom: 5%;
 }
+#logo{
+	position: absolute;
+	right: 230px;
+	top: 50px;
+}
 #status {
 	text-align: center;
 	position: absolute;

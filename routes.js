@@ -135,8 +135,11 @@ var getStatus = function(req,res){
 
 var serveTurnMessage = function(req,res){
 	if(isPlayer(req)){
+		var turn = playerWithHand.filter(function(player){
+			return player.isturn == true;
+		})
 		var currentPlayer = findCurrentPlayer(req)
-		res.end(JSON.stringify(currentPlayer.isturn))
+		res.end(JSON.stringify({ isTurn:currentPlayer.isturn , name:turn[0].name }));
 	}
 	res.end();
 		
