@@ -6,8 +6,12 @@
 	left: 50px;
     bottom: 10;
 }
+#cardsName{
+	position: absolute;
+	right: 25em;
+	bottom: 15%;
+}
 #logTable{
-	/*position: absolute;
 	right: 25px;*/
 	height:100%;
     width: 100%;

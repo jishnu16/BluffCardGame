@@ -13,7 +13,10 @@ var generateHandCard = function(cards){
 var generateLogTableData = function(data){
 	var tableData = JSON.parse(data);
 	return tableData.map(function(singleData){
-		return '<tr><td>'+singleData.name+'  played  '+singleData.noOfPlayedCards+'  cards</td></tr>';
+		if(singleData.action == 'played'){
+			return '<tr><td>'+singleData.name+'  played  '+singleData.cards.length+'  cards</td></tr>';
+		}
+
 	});
 }
 var uniqueElementArray = function(cards){
@@ -24,12 +27,18 @@ var uniqueElementArray = function(cards){
 var getGameStatus = function(){
 	$.get('serveTurnMessage',function(data){
 		var turnMessage = JSON.parse(data).isTurn;
+		var isNewRound = JSON.parse(data).isNewRound;
+		// alert(isNewRound);
 		if(turnMessage == false){
 			$('#playCard').prop('disabled', true);
 			$('#pass').prop('disabled', true);
 			$('#playerHand').off('click');
+			$('#listOfcardName').prop('disabled',true);
+
 		}
 		if(turnMessage == true){
+			if(isNewRound == true)
+				$('#listOfcardName').prop('disabled',false);
 		    $('#playCard').prop('disabled', false);
 			$('#pass').prop('disabled', false);
 			$('#playerHand').on('click','td',function(){
