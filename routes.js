@@ -2,6 +2,7 @@ var fs = require('fs');
 var querystring = require('querystring');
 var players = [];
 var playerWithHand = [];
+var playerActionLog = [];
 var isStarted = false;
 var deckLib = require('./public/javascript/deck.js').lib;
 
@@ -102,7 +103,7 @@ var serveUpdate = function(req,res){
 	else
 		res.end();
 };
-var playedCards = [];
+var playerActionLog = [];
 var requestForPlayingCards = function(req,res,next){
 	var data = '';
 	req.on('data',function(chunk){
@@ -117,7 +118,8 @@ var requestForPlayingCards = function(req,res,next){
 			deckLib.removePlayedCardsFromPlayerHand(currentPlayer[0],JSON.parse(data));
 			deckLib.changePlayerTurn(playerWithHand);
 		}
-		playedCards.push({name: currentPlayer[0].name,noOfPlayedCards : JSON.parse(data).length});
+		playerActionLog.push({name: currentPlayer[0].name,action : 'played' ,cards:JSON.parse(data)});
+		console.log(playerActionLog);
 		res.end();
 	});
 };
@@ -139,7 +141,7 @@ var serveTurnMessage = function(req,res){
 			return player.isturn == true;
 		})
 		var currentPlayer = findCurrentPlayer(req)
-		res.end(JSON.stringify({ isTurn:currentPlayer.isturn , name:turn[0].name }));
+		res.end(JSON.stringify({ isTurn:currentPlayer.isturn , name:turn[0].name ,isNewRound:deckLib.isNewRound(playerActionLog)}));
 	}
 	res.end();
 		
@@ -147,7 +149,7 @@ var serveTurnMessage = function(req,res){
 
 var serveTableUpdate = function(req,res,next){
 	if(isPlayer(req))
-		res.end(JSON.stringify(playedCards));
+		res.end(JSON.stringify(playerActionLog));
 	res.end();
 }
 

@@ -74,3 +74,7 @@ lib.changePlayerTurn = function(){
 	}
 }();
 
+lib.isNewRound = function(actionLog){
+	return actionLog.length == 0;
+}
+
