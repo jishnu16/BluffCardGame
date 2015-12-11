@@ -121,6 +121,14 @@ var requestForPlayingCards = function(req,res,next){
 		res.end();
 	});
 };
+
+var requestForPass = function(req,res){
+	req.on('end',function(){
+			deckLib.changePlayerTurn(playerWithHand);
+	})
+	res.end();
+};
+
 var findCurrentPlayer = function(req){
 	var currentPlayer = playerWithHand.filter(function(player){
 				if (player.name == req.headers.cookie)
@@ -128,6 +136,7 @@ var findCurrentPlayer = function(req){
 			});
 	return currentPlayer[0];
 }
+
 var getStatus = function(req,res){
 	if(isPlayer(req))
 		serveCards(req,res);
@@ -154,6 +163,7 @@ var serveTableUpdate = function(req,res,next){
 exports.post_handlers = [
 	{path : '^/joingame$' , handler : requestForJoining},
 	{path : '^/html/playCard$' , handler : requestForPlayingCards},
+	{path: '^/html/pass$' , handler : requestForPass},
 	{path: '', handler: serveStaticFile},
 	{path : '',handler : notAllowed}
 ];

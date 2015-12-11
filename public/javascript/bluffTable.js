@@ -51,6 +51,11 @@ var onLoading = function(){
 	$.get('handCards',function(data){
 		$('#playerHand').html(generateHandCard(data));
 	});
+	$('#pass').click(function(){
+		alert('ON PASS');
+		$.post('pass');		
+	})
+
 	$('#playCard').click(function(){
 		$.post('playCard',JSON.stringify(playedCardIds));
 		$.get('getStatus',function(data){
