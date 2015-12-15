@@ -4,10 +4,21 @@ var reloadCards = function(){
 		playedCardIds.push(card);
 		alert(playedCardIds);
 };
+
+var unicodeRepresentationOfCards = function(suit){
+	switch(suit){
+		case 'hearts': return '<span style="color:red">♥</span>';
+		case 'spades': return '♠';
+		case 'diamonds': return '<span style="color:red">♦</span>';
+		case 'clubs': return '♣';
+
+	}
+};
+
 var generateHandCard = function(cards){
 	var handedCards = JSON.parse(cards);
 	return handedCards.map(function(singleCard){
-		return '<td id ="'+singleCard.id + '"class = "playerCard"'+'><div class="'+singleCard.suit+'">'+singleCard.name+'</br>'+singleCard.suit+'</div></td>';
+		return '<td id ="'+singleCard.id + '"class = "playerCard"'+'><div class="'+singleCard.suit+'">'+ singleCard.name+'</br>'+unicodeRepresentationOfCards(singleCard.suit)+'</div></td>';
 	});
 }
 var generateLogTableData = function(data){
@@ -39,13 +50,13 @@ var getGameStatus = function(){
 		if(turnMessage == true){
 			if(isNewRound == true)
 				$('#listOfcardName').prop('disabled',false);
-		    $('#playCard').prop('disabled', false);
-			$('#pass').prop('disabled', false);
-			$('#playerHand').on('click','td',function(){
-				var card = $(this).attr('id');
-				this.style.backgroundColor = "#C0C0C0";
-				playedCardIds.push(card);
-				playedCardIds = uniqueElementArray(playedCardIds);
+			    $('#playCard').prop('disabled', false);
+				$('#pass').prop('disabled', false);
+				$('#playerHand').on('click','td',function(){
+					var card = $(this).attr('id');
+					this.style.backgroundColor = "#C0C0C0";
+					playedCardIds.push(card);
+					playedCardIds = uniqueElementArray(playedCardIds);
 			});
 		}
 		$('#turnName').html(JSON.parse(data).name);
