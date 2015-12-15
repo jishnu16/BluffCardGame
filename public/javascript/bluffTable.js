@@ -27,6 +27,9 @@ var generateLogTableData = function(data){
 		if(singleData.action == 'played'){
 			return '<tr><td>'+singleData.name+'  played  '+singleData.cards.length+'  cards</td></tr>';
 		}
+		if(singleData.action == 'pass'){
+			return '<tr><td>'+singleData.name+' say passed </td></tr>';
+		}
 
 	});
 }

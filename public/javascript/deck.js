@@ -75,6 +75,18 @@ lib.changePlayerTurn = function(){
 }();
 
 lib.isNewRound = function(actionLog){
-	return actionLog.length == 0;
+	var flag = true;
+	if(actionLog.length == 0){
+		return true;
+	}
+	else if(actionLog.length<3)
+		return false;
+	else{
+		for (var i = actionLog.length-1 ; i >= actionLog.length -3 ; i--) {
+			if(actionLog[i].action != 'pass')
+				flag = false;
+		};
+	}
+	return flag;
 }
 
