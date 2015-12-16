@@ -1,13 +1,13 @@
 var fs = require('fs');
-var querystring = require('querystring');
 var players = [];
 var playerWithHand = [];
 var playerActionLog = [];
 var isStarted = false;
-var deckLib = require('./public/javascript/deck.js').lib;
+var deckLib = require('./javascript/deck.js').lib;
+var game = require('./javascript/game.js').lib;
 
 var serveLoginPage = function(req,res,next){
-	req.url = '/html/login.html';
+	req.url = '/login.html';
 	next();
 };
 
@@ -37,7 +37,7 @@ var notAllowed = function(req ,res){
 
 var startGame = function(){
 	var shuffledCards = deckLib.shuffle(deckLib.generateCards());
-	playerWithHand = deckLib.distributeCardsToPlayersHand(shuffledCards,players);
+	playerWithHand = game.distributeCardsToPlayersHand(shuffledCards,players);
 	playerWithHand[0].isturn = true;
 };
 
@@ -47,7 +47,7 @@ var serveWaitingMessage = function(req,res,name){
 };
 
 var serveMainGamePage = function(req,res){
-	res.writeHead(302, {'Location': 'html/main.html'});
+	res.writeHead(302, {'Location': 'main.html'});
 	res.end();
 };
 
@@ -115,8 +115,8 @@ var requestForPlayingCards = function(req,res,next){
 				if (player.name == req.headers.cookie)
 					return player;
 			});
-			deckLib.removePlayedCardsFromPlayerHand(currentPlayer[0],JSON.parse(data));
-			deckLib.changePlayerTurn(playerWithHand);
+			game.removePlayedCardsFromPlayerHand(currentPlayer[0],JSON.parse(data));
+			game.changePlayerTurn(playerWithHand);
 		}
 		playerActionLog.push({name: currentPlayer[0].name,action : 'played' ,cards:JSON.parse(data)});
 		console.log(playerActionLog);
@@ -127,7 +127,7 @@ var requestForPlayingCards = function(req,res,next){
 var requestForPass = function(req,res){
 	req.on('end',function(){
 		playerActionLog.push({name:req.headers.cookie,action:'pass'});
-		deckLib.changePlayerTurn(playerWithHand);
+		game.changePlayerTurn(playerWithHand);
 	})
 	res.end();
 };
@@ -151,7 +151,7 @@ var serveTurnMessage = function(req,res){
 			return player.isturn == true;
 		})
 		var currentPlayer = findCurrentPlayer(req)
-		res.end(JSON.stringify({ isTurn:currentPlayer.isturn , name:turn[0].name ,isNewRound:deckLib.isNewRound(playerActionLog)}));
+		res.end(JSON.stringify({ isTurn:currentPlayer.isturn , name:turn[0].name ,isNewRound:game.isNewRound(playerActionLog)}));
 	}
 	res.end();
 		
@@ -165,19 +165,19 @@ var serveTableUpdate = function(req,res,next){
 
 exports.post_handlers = [
 	{path : '^/joingame$' , handler : requestForJoining},
-	{path : '^/html/playCard$' , handler : requestForPlayingCards},
-	{path: '^/html/pass$' , handler : requestForPass},
+	{path : '^/playCard$' , handler : requestForPlayingCards},
+	{path: '^/pass$' , handler : requestForPass},
 	{path: '', handler: serveStaticFile},
 	{path : '',handler : notAllowed}
 ];
 
 exports.get_handlers = [
-	{path: '^/html/serveTurnMessage$',handler:serveTurnMessage},
+	{path: '^/serveTurnMessage$',handler:serveTurnMessage},
 	{path: '^/$', handler: serveLoginPage},
 	{path: '^/update$' , handler:serveUpdate},
-	{path: '^/html/getStatus$' , handler:getStatus},
-	{path: '^/html/handCards$',handler:serveCards},
-	{path: '^/html/tableData$',handler:serveTableUpdate},
+	{path: '^/getStatus$' , handler:getStatus},
+	{path: '^/handCards$',handler:serveCards},
+	{path: '^/tableData$',handler:serveTableUpdate},
 	{path: '', handler: serveStaticFile},
 	{path: '', handler: fileNotFound}
 ];

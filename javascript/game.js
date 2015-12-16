@@ -1,38 +1,7 @@
-var ld = require('lodash');
+var module = require('./deck.js').lib;
 var playerLib = require('./player.js').lib;
 var lib = {};
 exports.lib = lib;
-var setHref = function(name,suit){
-	return name + '_' + 'of' + '_' +suit+'.svg';
-}
-var generateCardId = function(name,suit){
-	if(typeof(name) == 'string')
-		return suit[0].toUpperCase() + name[0].toUpperCase();
-	return suit[0].toUpperCase() + name;
-};
-lib.Card = function(nameOfCards,suit){
-	this.name = nameOfCards;
-	this.suit = suit;
-	this.href = setHref(nameOfCards,suit);
-	this.id = generateCardId(nameOfCards,suit);
-};
-
-lib.generateCards = function(){
-	var namedCards=['ace',2,3,4,5,6,7,8,9,10,'jack','queen','king']
-	var suits = ['hearts','spades','clubs','diamonds'];
-	var deckOfCards = ld.map(namedCards,function(name){
-		return ld.map(suits,function(suit){
-			return new lib.Card(name,suit);
-		});
-	});
-	return ld.flattenDeep(deckOfCards);
-};
-
-
-lib.shuffle = function(cards){
-	return ld.shuffle(cards);
-};
-
 lib.distributeCardsToPlayersHand = function(cards,player_names){
 	var seperatedHands = lib.creatingPlayerHand(cards);
 	var playerInfo = [];
@@ -45,7 +14,6 @@ lib.distributeCardsToPlayersHand = function(cards,player_names){
 	});
 	return player_info;
 };
-
 lib.creatingPlayerHand = function(cards){
 	var allHand=[[],[],[]];
 	for (var cardsindex = 0; cardsindex < 17; cardsindex++){
@@ -76,17 +44,15 @@ lib.changePlayerTurn = function(){
 
 lib.isNewRound = function(actionLog){
 	var flag = true;
-	if(actionLog.length == 0){
+	if(actionLog.length == 0)
 		return true;
-	}
 	else if(actionLog.length<3)
 		return false;
 	else{
-		for (var i = actionLog.length-1 ; i >= actionLog.length -3 ; i--) {
-			if(actionLog[i].action != 'pass')
+		for (var index = actionLog.length-1 ; index >= actionLog.length -3 ; index--) {
+			if(actionLog[index].action != 'pass')
 				flag = false;
 		};
 	}
 	return flag;
 }
-

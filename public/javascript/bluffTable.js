@@ -31,7 +31,6 @@ var getGameStatus = function(){
 	$.get('serveTurnMessage',function(data){
 		var turnMessage = JSON.parse(data).isTurn;
 		var isNewRound = JSON.parse(data).isNewRound;
-		// alert(isNewRound);
 		if(turnMessage == false){
 			$('#playCard').prop('disabled', true);
 			$('#pass').prop('disabled', true);

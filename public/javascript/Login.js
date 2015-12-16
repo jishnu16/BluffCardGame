@@ -1,7 +1,7 @@
 var requestForUpdate = function(){
 	$.get('update',function(data){
 		if(JSON.parse(data).isStarted == true)
-			window.location.href = '/html/bluffGame.html';
+			window.location.href = '/bluffGame.html';
 	})
 };
 var requestToJoinIngame = function(){
@@ -9,7 +9,7 @@ var requestToJoinIngame = function(){
 	$.post('joingame',username,function(data){
 		$('#message').html(data);
 		if(JSON.parse(data).isStarted == true)
-			window.location.href = '/html/bluffGame.html';
+			window.location.href = '/bluffGame.html';
 	})
 };
 
