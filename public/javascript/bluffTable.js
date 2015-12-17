@@ -4,6 +4,12 @@ var reloadCards = function(){
 		playedCardIds.push(card);
 		alert(playedCardIds);
 };
+var getHandCardStatus = function(){
+	$.get('getStatus',function(data){
+			var card = JSON.parse(data);
+			$('#playerHand').html(generateHandCard(data));
+	});
+}
 
 var unicodeRepresentationOfCards = function(suit){
 	switch(suit){
@@ -42,26 +48,35 @@ var getGameStatus = function(){
 	$.get('serveTurnMessage',function(data){
 		var turnMessage = JSON.parse(data).isTurn;
 		var isNewRound = JSON.parse(data).isNewRound;
+		var namedCard = JSON.parse(data).namedCard;
 		if(turnMessage == false){
 			$('#playCard').prop('disabled', true);
 			$('#pass').prop('disabled', true);
 			$('#playerHand').off('click');
 			$('#listOfcardName').prop('disabled',true);
-
+			$('#selectNamedCard').prop('disabled',true);
+			getHandCardStatus();
 		}
 		if(turnMessage == true){
-			if(isNewRound == true)
+			if(isNewRound == true){
 				$('#listOfcardName').prop('disabled',false);
-			    $('#playCard').prop('disabled', false);
-				$('#pass').prop('disabled', false);
-				$('#playerHand').on('click','td',function(){
-					var card = $(this).attr('id');
-					this.style.backgroundColor = "#C0C0C0";
-					playedCardIds.push(card);
-					playedCardIds = uniqueElementArray(playedCardIds);
+				$('#selectNamedCard').prop('disabled',false);
+			}
+		    $('#playCard').prop('disabled', false);
+			$('#pass').prop('disabled', false);
+			$('#playerHand').on('click','td',function(){
+				var card = $(this).attr('id');
+				this.style.backgroundColor = "#C0C0C0";
+				playedCardIds.push(card);
+				playedCardIds = uniqueElementArray(playedCardIds);
 			});
 		}
 		$('#turnName').html(JSON.parse(data).name);
+		if(isNewRound == true){
+			$('#namedCard').html("new round starting");
+		}
+		else
+			$('#namedCard').html(namedCard);
 	})
 	
 	$.get('tableData',function(data){
@@ -69,24 +84,34 @@ var getGameStatus = function(){
 	});
 };
 var onLoading = function(){
-	var Interval = setInterval(getGameStatus,3000)
+	var Interval = setInterval(getGameStatus,1000)
 	$.get('handCards',function(data){
 		$('#playerHand').html(generateHandCard(data));
 	});
 	$('#pass').click(function(){
-		alert('ON PASS');
-		$.post('pass');		
+		$.post('pass');	
+		playedCardIds = [];	
 	})
-
+	$('#selectNamedCard').click(function(){
+		var value = $('#listOfcardName').val();
+		$.post('setNamedCard',value)
+		alert(value);
+	})
 	$('#playCard').click(function(){
-		$.post('playCard',JSON.stringify(playedCardIds));
+		$.post('playCard',JSON.stringify(playedCardIds));		
 		$.get('getStatus',function(data){
 			var card = JSON.parse(data);
 			$('#playerHand').html(generateHandCard(data));
 		});
 		playedCardIds = [];
 	});
+	$('#bluff').click(function(){
+		$.post('bluff');
+		$.get('getStatus',function(data){
+			var card = JSON.parse(data);
+			$('#playerHand').html(generateHandCard(data));
+		});
+		playedCardIds = [];
+	})
 }
 $(document).ready(onLoading);
-
-

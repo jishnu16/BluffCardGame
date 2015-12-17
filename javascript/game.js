@@ -1,5 +1,6 @@
 var module = require('./deck.js').lib;
 var playerLib = require('./player.js').lib;
+var ld = require('lodash');
 var lib = {};
 exports.lib = lib;
 lib.distributeCardsToPlayersHand = function(cards,player_names){
@@ -25,6 +26,7 @@ lib.creatingPlayerHand = function(cards){
 };
 
 lib.removePlayedCardsFromPlayerHand = function(player,idsOfPlayedCards){
+
 	player.hand = player.hand.filter(function(obj){
 		return idsOfPlayedCards.indexOf(obj.id) === -1;
 	})
@@ -55,4 +57,65 @@ lib.isNewRound = function(actionLog){
 		};
 	}
 	return flag;
+}
+lib.generateCardById = function(cardIds){
+	var cardNameAndSuit = cardIds.map(function(eachId){
+		var cardSuit = eachId[0];
+		var suits = {'H':'hearts','S':'spades','C':'clubs','D':'diamonds'}
+		var cardObject ={};
+		cardObject.suit = suits[cardSuit];
+		var name = eachId.slice(1);
+		if(typeof(+name) == 'number')
+			cardObject.name = +name;
+		switch(name){
+			case 'A': cardObject.name='ace'; 
+				break;
+			case 'K': cardObject.name='king';
+				break;
+			case 'Q': cardObject.name='queen';
+				break;
+			case 'J': cardObject.name='jack';
+				break;
+		}
+		return cardObject;
+	})
+	var generatedCards = cardNameAndSuit.map(function(eachCard){
+		return new module.Card(eachCard.name,eachCard.suit);
+	})
+	return generatedCards;
+}
+
+lib.pushAllPlayedCardToPlayerHand = function(players,playerName,playerActionLog){
+	var selectedPlayer = players.filter(function(player){
+				if(player.name == playerName)
+					return player;
+			})[0];
+			var allCards = [];				
+			playerActionLog.forEach(function(singleTurn){
+				if(singleTurn.cards)
+					allCards.push(singleTurn.cards);
+			})
+			selectedPlayer.hand.push(allCards);
+			selectedPlayer.hand = ld.flattenDeep(selectedPlayer.hand);
+			return players;
+}
+
+lib.decideBluff = function(players,playerActionLog,namedCard,challengerName){
+	if(playerActionLog.length>0){
+		console.log(playerActionLog)
+		console.log(players[0].hand)
+		var lastPlayedCards = playerActionLog[playerActionLog.length-1].cards;
+		var result = lastPlayedCards.every(function(singleCard){
+			return singleCard.name == namedCard;
+		}) 
+		if(result == true){
+			pushAllPlayedCardToPlayerHand(players,challengerName,playerActionLog);
+			return;
+		}
+		else{
+			var looserName = playerActionLog[playerActionLog.length -1].name;
+			pushAllPlayedCardToPlayerHand(players,looserName,playerActionLog);
+			return;
+		}
+	}
 }

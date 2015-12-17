@@ -3,6 +3,7 @@ var players = [];
 var playerWithHand = [];
 var playerActionLog = [];
 var isStarted = false;
+var namedCard;
 var deckLib = require('./javascript/deck.js').lib;
 var game = require('./javascript/game.js').lib;
 
@@ -118,7 +119,7 @@ var requestForPlayingCards = function(req,res,next){
 			game.removePlayedCardsFromPlayerHand(currentPlayer[0],JSON.parse(data));
 			game.changePlayerTurn(playerWithHand);
 		}
-		playerActionLog.push({name: currentPlayer[0].name,action : 'played' ,cards:JSON.parse(data)});
+		playerActionLog.push({name: currentPlayer[0].name,action : 'played' ,cards:game.generateCardById(JSON.parse(data))});
 		console.log(playerActionLog);
 		res.end();
 	});
@@ -128,6 +129,9 @@ var requestForPass = function(req,res){
 	req.on('end',function(){
 		playerActionLog.push({name:req.headers.cookie,action:'pass'});
 		game.changePlayerTurn(playerWithHand);
+		if(game.isNewRound(playerActionLog)){
+			playerActionLog = [];
+		}
 	})
 	res.end();
 };
@@ -151,7 +155,7 @@ var serveTurnMessage = function(req,res){
 			return player.isturn == true;
 		})
 		var currentPlayer = findCurrentPlayer(req)
-		res.end(JSON.stringify({ isTurn:currentPlayer.isturn , name:turn[0].name ,isNewRound:game.isNewRound(playerActionLog)}));
+		res.end(JSON.stringify({ isTurn:currentPlayer.isturn , name:turn[0].name ,isNewRound:game.isNewRound(playerActionLog),namedCard:namedCard}));
 	}
 	res.end();
 		
@@ -162,9 +166,29 @@ var serveTableUpdate = function(req,res,next){
 		res.end(JSON.stringify(playerActionLog));
 	res.end();
 }
+var requestForSetNamedCard = function(req,res){
+	if(isPlayer(req)){
+		var data = '';
+		req.on('data',function(chunk){
+			data+=chunk;
+		})
+		req.on('end',function(){
+			namedCard = data;
+			res.end();
+		})
+	}
+}
+var requestForBluff = function(req,res){
+	var challengerName = req.headers.cookie;
+	game.decideBluff(playerWithHand,playerActionLog,namedCard,challengerName);
+	playerActionLog=[];
+	res.end();
+}
 
 exports.post_handlers = [
 	{path : '^/joingame$' , handler : requestForJoining},
+	{path : '^/setNamedCard$' , handler : requestForSetNamedCard},
+	{path : '^/bluff$' , handler : requestForBluff},
 	{path : '^/playCard$' , handler : requestForPlayingCards},
 	{path: '^/pass$' , handler : requestForPass},
 	{path: '', handler: serveStaticFile},
