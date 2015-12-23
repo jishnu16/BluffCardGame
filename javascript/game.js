@@ -3,6 +3,31 @@ var playerLib = require('./player.js').lib;
 var ld = require('lodash');
 var lib = {};
 exports.lib = lib;
+
+lib.Game = function(cards){
+	this.players = [];
+	this.actionLog = [];
+	this.cards = cards;
+}
+
+lib.Game.prototype.shuffle = function(cards){
+	return ld.shuffle(cards);
+};
+
+lib.Game.prototype.distributeCardsToPlayers = function(){
+	this.cards = shuffle(this.cards);
+	var currentPlayerId = this.getCurrentPlayer().id;
+
+}
+
+lib.Game.prototype.addPlayer = function(playerName){
+	this.players.push(new playerLib.Player(playerName));
+}
+
+lib.Game.prototype.canStartPlaying = function(){
+	return this.players.length==3;
+}
+
 lib.distributeCardsToPlayersHand = function(cards,player_names){
 	var seperatedHands = lib.creatingPlayerHand(cards);
 	var playerInfo = [];

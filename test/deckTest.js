@@ -18,11 +18,6 @@ describe('Deck',function(){
 	it('"generateCards" should have generate 52 playable cards',function(){
 		expect(deckLib.generateCards().length).to.equal(52);
 	});
-
-	it('"shuffle" should returned 52 cards after shuffling the deck',function(){
-		expect(deckLib.shuffle(deckLib.generateCards()).length).to.equal(52);
-	});
-
 });	
 
 

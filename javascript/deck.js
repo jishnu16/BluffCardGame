@@ -27,10 +27,6 @@ lib.generateCards = function(){
 	return ld.flattenDeep(deckOfCards);
 };
 
-lib.shuffle = function(cards){
-	return ld.shuffle(cards);
-};
-
 
 
 

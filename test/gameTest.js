@@ -37,14 +37,56 @@ describe('creatingPlayerHand',function(){
 	});
 })
 	
+describe('add Players to game',function(){
+	var game1 = new game.Game(deckLib.generateCards());
+
+	it('should start only after 3 players join',function(){
+		game1.addPlayer('one');
+		expect(game1.canStartPlaying()).to.equal(false);
+
+		game1.addPlayer('two');
+		expect(game1.canStartPlaying()).to.equal(false);
+
+		game1.addPlayer('three');
+		expect(game1.canStartPlaying()).to.equal(true);
+	});
+	it('distributeCardsToPlayers',function(){
+		game1.distributeCardsToPlayers();
+
+		var playerOne = game1.getPlayer('one');
+		expect(playerOne.getCardCount(),18);
+
+		var playerTwo = game1.getPlayer('two');
+		expect(playerTwo.getCardCount(),17);
+
+		var playerThree = game1.getPlayer('three');
+		expect(playerThree.getCardCount(),17);
+	});
+	// it('"shuffle" should returned 52 cards after shuffling the deck',function(){
+	// 	expect(deckLib.shuffle(deckLib.generateCards()).length).to.equal(52);
+	// });
+
+})
 describe('distributeCardsToPlayersHand',function(){
 	it('should have name and hand',function(){
-    	var playersInfo = game.distributeCardsToPlayersHand(deckLib.generateCards(),players);
-		expect(playersInfo.length).to.equal(3);
-		expect(playersInfo[0].name).to.equal('suman');
-		expect(playersInfo[0].hand.length).to.equal(17);
+		var game1 = new game.Game(deckLib.generateCards());
+		game1.addPlayer('one');
+		expect(game1.canStartPlaying()).to.equal(false);
+
+		game1.addPlayer('two');
+		expect(game1.canStartPlaying()).to.equal(false);
+
+		game1.addPlayer('three');
+		game1.distributeCardsToPlayers();
+		expect(game1.canStartPlaying()).to.equal(true);
+
+  //   	var playersInfo = game.distributeCardsToPlayersHand(,players);
+		// expect(playersInfo.length).to.equal(3);
+		// expect(playersInfo[0].name).to.equal('suman');
+		// expect(playersInfo[0].hand.length).to.equal(17);
 	})
 })
+
 describe('isNewRound',function(){
 	it('should return true when the game start',function(){
 		var actionLog = [];

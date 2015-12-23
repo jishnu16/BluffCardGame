@@ -1,8 +1,4 @@
 var fs = require('fs');
-var players = [];
-var playerWithHand = [];
-var playerActionLog = [];
-var isStarted = false;
 var namedCard;
 var deckLib = require('./javascript/deck.js').lib;
 var game = require('./javascript/game.js').lib;
