@@ -1,10 +1,11 @@
 var requestForUpdate = function(){
 	$.get('update',function(data){
-		if(JSON.parse(data).isStarted == true)
+		var message = JSON.parse(data)
+		if(message && message.isStarted == true)
 			window.location.href = '/bluffGame.html';
 	})
 };
-var requestToJoinIngame = function(){
+var requestToJoinGame = function(){
 	var username = $('#name').val();
 	$.post('joingame',username,function(data){
 		$('#message').html(data);
@@ -14,7 +15,7 @@ var requestToJoinIngame = function(){
 };
 
 var onReady = function(){
-	$("#submit1").click(requestToJoinIngame)
-	var interval = setInterval(requestForUpdate,5000)
+	$("[type='submit']").click(requestToJoinGame)
+	setInterval(requestForUpdate,5000)
 }
 $(document).ready(onReady);

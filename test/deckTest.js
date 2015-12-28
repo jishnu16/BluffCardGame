@@ -1,5 +1,5 @@
-var deckLib = require('../javascript/deck.js').lib;
-var playerLib = require('../javascript/player.js').lib;
+var deckLib = require('../lib/deck.js');
+var playerLib = require('../lib/player.js');
 var expect = require('chai').expect;
 
 var players = ['suman','surajit','jishnu'];
@@ -17,10 +17,6 @@ describe('Deck',function(){
 
 	it('"generateCards" should have generate 52 playable cards',function(){
 		expect(deckLib.generateCards().length).to.equal(52);
-	});
-
-	it('"shuffle" should returned 52 cards after shuffling the deck',function(){
-		expect(deckLib.shuffle(deckLib.generateCards()).length).to.equal(52);
 	});
 
 });	

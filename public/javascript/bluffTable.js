@@ -1,9 +1,4 @@
 var playedCardIds = [];
-var reloadCards = function(){
-		var card = $(this).attr('id');
-		playedCardIds.push(card);
-		alert(playedCardIds);
-};
 var getHandCardStatus = function(){
 	$.get('getStatus',function(data){
 			var card = JSON.parse(data);
