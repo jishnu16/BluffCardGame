@@ -20,7 +20,7 @@ describe('routes',function(){
 	describe('/update',function(){
 		it('should give false when no player join the game',function(done){
 			var expected = JSON.stringify({isStarted : false}) 
-			game.isGameStarted = function(){return false;};
+			game.isGameStarted = sinon.stub().returns(false);
 			request(controller)
 				.get('/update')
 				.expect(200)
@@ -28,7 +28,7 @@ describe('routes',function(){
 		});
 		it('should give true after three player join the game',function(done){
 			var expected = JSON.stringify({isStarted : true});
-			game.isGameStarted = function(){return true;};
+			game.isGameStarted = sinon.stub().returns(true);
 			request(controller)
 				.get('/update')
 				.expect(200)
@@ -37,9 +37,9 @@ describe('routes',function(){
 	})
 	describe(' POST /joingame',function(){
 		it('inform player\'s name in login page and serve waiting message',function(done){
-			game.hasVacancy = function(){return true;};
-			game.isAlreadyJoin = function(){return false;};
-			game.joinPlayer = function(){};
+			game.hasVacancy = sinon.stub().returns(true);
+			game.isAlreadyJoin = sinon.stub().returns(false);
+			game.joinPlayer = sinon.spy();
 			request(controller)
 				.post('/joingame')
 				.send('Ratan')
@@ -48,16 +48,16 @@ describe('routes',function(){
 				.expect(/Ratan your registration successful/,done)
 		});
 		it('if three player already joined then it should send a message "try later"',function(done){
-			game.hasVacancy = function(){return false;};
-			game.isAlreadyJoin = function(){return false;};
+			game.hasVacancy = sinon.stub().returns(false);
+			game.isAlreadyJoin = sinon.stub().returns(false);
 			request(controller)
 				.post('/joingame').send('ramu')
 				.expect(200)
 				.expect('try after some time',done)
 		});
 		it('should not join a player if the player is already joined',function(done){
-			game.hasVacancy = function(){return true;};
-			game.isAlreadyJoin = function(){return true;};
+			game.hasVacancy = sinon.stub().returns(true);
+			game.isAlreadyJoin = sinon.stub().returns(true);
 			request(controller)
 				.post('/joingame')
 				.set('Cookie','surajit')
@@ -69,10 +69,10 @@ describe('routes',function(){
 			game.hasVacancy = sinon.stub();
 			game.hasVacancy.onCall(0).returns(true);
     		game.hasVacancy.onCall(1).returns(false);
-			game.isAlreadyJoin = function(){return false;};
-			game.startGame = function(){};
-			game.joinPlayer = function(){};
-			game.isGameStarted = function(){return true;};
+			game.isAlreadyJoin = sinon.stub().returns(false);
+			game.startGame = sinon.spy();
+			game.joinPlayer = sinon.spy();
+			game.isGameStarted = sinon.stub().returns(true);
 
 			var expected = JSON.stringify({isStarted : true});
 			request(controller)
@@ -85,7 +85,7 @@ describe('routes',function(){
 	})
 	describe('/handCards',function(){
 		it('should serve all cards which are in requested player hand',function(done){
-			game.findRequestPlayer = function(){return {hand:['cards']}}
+			game.findRequestPlayer = sinon.stub().returns({hand:['cards']});
 			var expected = JSON.stringify(['cards'])
 			request(controller)
 				.get('/handCards')
@@ -96,8 +96,8 @@ describe('routes',function(){
 	}); 
 	describe('POST /setNamedCard',function(){
 		it('should set requested namedCard',function(done){
-			game.isPlayer = function(){return true;};
-			game.setNameCard = function(card){};
+			game.isPlayer = sinon.stub().returns(true);
+			game.setNameCard = sinon.spy();
 			request(controller)
 				.post('/setNamedCard')
 				.set('Cookie','jishnu')	
@@ -110,8 +110,8 @@ describe('routes',function(){
 	describe('POST /playCard',function(){
 		it('should requested for played card\'s',function(done){
 			game.players = [{},{},{}]
-			game.findRequestPlayer = function(){return { name:'ramlal',hand:[{},{}]}}
-			game.getPlayedCards = function(){}
+			game.findRequestPlayer = sinon.stub().returns({ name:'ramlal',hand:[{},{}]});
+			game.getPlayedCards = sinon.spy();
 			game.actionLog = [];
 			request(controller)
 				.post('/playCard')
@@ -122,8 +122,8 @@ describe('routes',function(){
 	});
 	describe('/getStatus',function(){
 		it('should serve current status of requested player hand',function(done){
-			game.isPlayer = function(){ return true;};
-			game.findRequestPlayer = function(){return {hand:['cards']}}
+			game.isPlayer = sinon.stub().returns(true);
+			game.findRequestPlayer = sinon.stub().returns({hand:['cards']});
 			var expected = JSON.stringify(['cards'])
 			request(controller)
 				.get('/getStatus')
@@ -149,7 +149,7 @@ describe('routes',function(){
 			game.namedCard = 2;
 			game.actionLog=[{},{name:'ramukaka',action:'played',cards:[{name:2},{name:2}]}];
 			game.players = [{name:'jishnu',hand:[]},{},{}];
-			game.decideBluff = function(){};
+			game.decideBluff = sinon.spy();
 			request(controller)
 				.post('/bluff')
 				.set('Cookie','jishnu')
@@ -159,10 +159,10 @@ describe('routes',function(){
 	describe('/serveTurnMessage',function(){
 		it('should serve the information about player turn',function(done){
 			var expected = JSON.stringify({ isTurn:false , name:'ramlal' ,isNewRound:true,namedCard:'notSet'});
-			game.findRequestPlayer = function(){return {name:'jishnu',isturn:false}};
+			game.findRequestPlayer = sinon.stub().returns({name:'jishnu',isturn:false});
 			game.players = [{name:'jishnu',isturn:false},{name:'ramlal',isturn:true}];
 			game.actionLog = [];
-			game.isNewRound = function(){return true}
+			game.isNewRound = sinon.stub().returns(true);
 			game.namedCard = 'notSet'
 			request(controller)
 				.get('/serveTurnMessage')
@@ -174,7 +174,7 @@ describe('routes',function(){
 	describe('/tableData',function(){
 		it('should serve the status of the played card',function(done){
 			game.actionLog = [];
-			game.isPlayer = function(){return true;};
+			game.isPlayer = sinon.stub().returns(true);
 			request(controller)
 				.get('/tableData')
 				.set('Cookie','jishnu')
