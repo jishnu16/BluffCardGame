@@ -15,9 +15,4 @@ changed to findRequestedPlayer from findRequestPlayer
 isplayer name should be changed to 'hasPlayer'
 
 
-change the function (
-/ req.game.changePlayerTurn(req.game.players);				//gameObject.change PlayerTurn()		
-// if(req.game.isNewRound(req.game.actionLog)){               //gameObject.isNewRound()
-// 	req.game.actionLog = [];							//deleteActionLog()
-// })
-)
+change getPlayedCards,decideBluff function name.

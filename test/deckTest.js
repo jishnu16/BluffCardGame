@@ -18,7 +18,6 @@ describe('Deck',function(){
 	it('"generateCards" should have generate 52 playable cards',function(){
 		expect(deckLib.generateCards().length).to.equal(52);
 	});
-
 });	
 
 

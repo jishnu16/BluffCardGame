@@ -1,11 +1,8 @@
 var game = require('../lib/game.js');
-var deckLib = require('../lib/deck.js');
 var Game = game.Game;
 var sinon = require('sinon');	
-
 var expect = require('chai').expect;
 var assert = require('chai').assert;
-var players = ['suman','surajit','jishnu'];
 
 beforeEach(function(){
 	game = new Game();
@@ -59,7 +56,7 @@ describe('Game',function(){
 			var result = game.findRequestPlayer('santa');
 			assert.notOk(result)
 		})
-	})
+	});
 	describe('isGameStarted',function(){
 		it('should return true when game is started',function(){
 			game.isStarted = true;
@@ -94,5 +91,57 @@ describe('Game',function(){
 			game.changePlayerTurn();
 			assert.deepEqual(expected,game.players)
 		})
+	})
+	describe('isNewRound',function(){
+		it('should return true when action log is empty',function(){
+			game.actionLog = [];
+			assert.ok(game.isNewRound())
+		});
+		it('should return false when actionLog is less than 3',function(){
+			game.actionLog = [{},{}];
+			assert.notOk(game.isNewRound())
+		});
+		it('should return false until 3 consecutive pass happened',function(){
+			game.actionLog = [{action:'pass'},{action:'played'},{action:'pass'}];
+			assert.notOk(game.isNewRound())
+		});
+		it('should return true when 3 consecutive pass happened',function(){
+			game.actionLog = [{action:'pass'},{action:'pass'},{action:'pass'}];
+			assert.ok(game.isNewRound())
+		});
+	})
+	describe('canBluff',function(){
+		it('should return true when actionlog is not empty',function(){
+			game.actionLog = [{},{}]
+			assert.ok(game.canBluff());
+		});
+		it('should return false when actionlog is empty',function(){
+			game.actionLog = [];
+			assert.notOk(game.canBluff());
+		});
+	})
+	describe('getLastPlayedCards',function(){
+		it('when only one player played card it will give those card',function(){
+			game.actionLog = [{cards:['H7']}]
+			assert.deepEqual(game.getLastPlayedCards(),['H7'])
+		});
+		it('when multiple player played card it will give last player\'s played cards',function(){
+			game.actionLog = [{cards:['H7','C7']},{cards:['D7','HK']},{cards:['C5']}]
+			assert.deepEqual(game.getLastPlayedCards(),['C5']);
+		});
+	})
+	describe('checkRoundCards',function(){
+		it('should return false when player not played predefined round\'s rank card',function(){
+			game.namedCard = "king";
+			game.getLastPlayedCards = function(){return [{name:'king'},{name:'queen'}]}
+			// game.actionLog = [{cards:}];
+			assert.notOk(game.checkRoundCards());
+		});
+		it('should return true when player played predefined round\'s rank card',function(){
+			game.namedCard = 'king';
+			game.getLastPlayedCards = function(){return [{name:'king'},{name:'king'}]}
+			// game.actionLog = [{cards:[{name:'king'},{name:'king'}]}];
+			assert.ok(game.checkRoundCards());
+		});
 	})
 })
