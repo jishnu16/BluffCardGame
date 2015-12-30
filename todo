@@ -16,3 +16,5 @@ isplayer name should be changed to 'hasPlayer'
 
 
 change getPlayedCards,decideBluff function name.
+
+puts games propertygame 

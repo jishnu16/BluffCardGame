@@ -3,7 +3,7 @@ var ld = require('lodash');
 
 
 var serveLoginPage = function(req,res,next){
-	req.url = '/login.html';
+	req.url = '/index.html';
 	next();
 };
 
@@ -29,12 +29,6 @@ var notAllowed = function(req ,res){
 	res.end('not allowed');
 };
 
-
-var serveWaitingMessage = function(req,res,name){
-	var message = '<h2>'+name+' your registration successful</h2><h3>Waiting for other player<h>';
-	res.end(message);
-};
-
 var serveMainGamePage = function(req,res){
 	res.writeHead(302, {'Location': 'main.html'});
 	res.end();
@@ -42,33 +36,34 @@ var serveMainGamePage = function(req,res){
 
 var joinPlayer = function(req,res,playerName){
 	res.writeHead(200 ,{'Set-Cookie':playerName});
-	req.game.joinPlayer(playerName);							
-	if(req.game.hasVacancy())						
-		serveWaitingMessage(req,res,playerName);					
-	else{
-		res.end(JSON.stringify({isStarted : req.game.isGameStarted()}));			
+	try{
+		req.game.joinPlayer(playerName);
+		res.end(JSON.stringify({isStarted : req.game.startGame()}));
+	}
+	catch(err) {
+		   res.end(err.message);
 	}
 };
 
 var requestForJoining = function(req,res,next){
-	var data = '';
+	var playerName = '';
 	req.on('data',function(chunk){
-		data+=chunk;
+		playerName+=chunk;
 	})
 	req.on('end',function(){
-		if(req.game.hasVacancy() && !req.game.isAlreadyJoin(data))
-			joinPlayer(req,res,data);
-		if(req.game.isAlreadyJoin(data))
-			res.end('already join');
-		else
-			res.end('try after some time');				
+		joinPlayer(req,res,playerName);
 	})
 };	
 
 var serveCards = function(req,res){
 	var playerName = req.headers.cookie;
-	var requestedPlayer = req.game.findRequestPlayer(playerName);
-	requestedPlayer ? res.end(JSON.stringify(requestedPlayer.hand)) : res.end();
+	try{
+		var requestedPlayer = req.game.findRequestPlayer(playerName);
+		res.end(JSON.stringify(requestedPlayer.hand));
+	}
+	catch(err){
+		res.end(err.message);
+	}
 }
 var serveUpdate = function(req,res){
 	res.end(JSON.stringify({isStarted : req.game.isGameStarted()}));
@@ -102,17 +97,18 @@ var getStatus = function(req,res){
 };
 
 var serveTurnMessage = function(req,res){
-	var requestedPlayerName = req.headers.cookie;
-	var requestedPlayer = req.game.findRequestPlayer(requestedPlayerName);
-	if(requestedPlayer){
-		var turn =req.game.players.filter(function(player){
-			return player.isturn == true;
-		})[0];
-		var turnData = { isTurn:requestedPlayer.isturn , name:turn.name ,isNewRound:req.game.isNewRound(),namedCard:req.game.namedCard}
+	try{
+		var requestedPlayerName = req.headers.cookie;
+		var requestedPlayer = req.game.findRequestPlayer(requestedPlayerName);
+		var turn = req.game.getCurrentPlayer();
+		var turnData = { isTurn:requestedPlayer.isturn , name:turn.name ,
+			isNewRound:req.game.isNewRound(),
+			namedCard:req.game.namedCard}
 		res.end(JSON.stringify(turnData));
 	}
-	res.end();
-		
+	catch(err){
+		res.end(err.message);
+	};
 };
 
 var serveTableUpdate = function(req,res,next){

@@ -33,16 +33,37 @@ describe('Game',function(){
 		})
 	})
 	describe('joinPlayer',function(){
-		it('should join a player in the game',function(){
-			game.joinPlayer('santa');
-			assert.equal(game.players.length,1)
+		it('should join a player in the game only if it hasVacancy',function(){
+			game.players = [];
+			game.joinPlayer('one');
+			game.joinPlayer('two');
+			game.joinPlayer('three');
+			assert.equal(game.players.length,3)
+		})
+		it('should not join a player in the game if already joined',function(){
+			game.players = [];
+			game.joinPlayer('one');
+			game.joinPlayer('two');
+			assert.throw(function() { game.joinPlayer('two'); },Error, 'already joined');
+
+			assert.equal(game.players.length,2)
+		})
+		it('should not be able to join a player in the game if no hasVacancy',function(){
+			game.players = [{},{},{}];
+			assert.throw(function() { game.joinPlayer('four'); },Error, 'try after some time');
+			assert.equal(game.players.length,3)
 		})
 	})
 	describe('startGame',function(){
 		it('indicates the game is started or not',function(){
-			game.players = [{isturn:false}]
-			game.startGame()
-
+			game.players = [{isturn:false},{},{}]
+			game.startGame();
+			assert.equal(game.isGameStarted(),true);
+			assert.equal(game.players[0].isturn,true);
+		})
+		it('game should not start if hasVacancy',function(){
+			game.players = [{isturn:false},{}];
+			assert.throw(function() { game.startGame(); },Error, 'waiting for other players to join');
 		})
 	})
 	describe('findRequestedPlayer',function(){
@@ -53,8 +74,7 @@ describe('Game',function(){
 		})
 		it('should give undefined when requested player is not present in game',function(){
 			game.players = [{name:'santaraam',hand:[]}];	
-			var result = game.findRequestPlayer('santa');
-			assert.notOk(result)
+			assert.throw(function() { game.findRequestPlayer('santa'); },Error,'player not found');
 		})
 	});
 	describe('isGameStarted',function(){

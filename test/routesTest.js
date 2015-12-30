@@ -37,42 +37,18 @@ describe('routes',function(){
 	})
 	describe(' POST /joingame',function(){
 		it('inform player\'s name in login page and serve waiting message',function(done){
-			game.hasVacancy = sinon.stub().returns(true);
-			game.isAlreadyJoin = sinon.stub().returns(false);
 			game.joinPlayer = sinon.spy();
+			game.startGame = sinon.stub().throws(new Error('xyz'));
 			request(controller)
 				.post('/joingame')
 				.send('Ratan')
 				.expect(200)
 				.expect('set-cookie','Ratan')
-				.expect(/Ratan your registration successful/,done)
-		});
-		it('if three player already joined then it should send a message "try later"',function(done){
-			game.hasVacancy = sinon.stub().returns(false);
-			game.isAlreadyJoin = sinon.stub().returns(false);
-			request(controller)
-				.post('/joingame').send('ramu')
-				.expect(200)
-				.expect('try after some time',done)
-		});
-		it('should not join a player if the player is already joined',function(done){
-			game.hasVacancy = sinon.stub().returns(true);
-			game.isAlreadyJoin = sinon.stub().returns(true);
-			request(controller)
-				.post('/joingame')
-				.set('Cookie','surajit')
-				.send('surajit')
-				.expect(200)
-				.expect('already join',done)
+				.expect(/xyz/,done)
 		});
 		it('should give status of game started for last player join',function(done){
-			game.hasVacancy = sinon.stub();
-			game.hasVacancy.onCall(0).returns(true);
-    		game.hasVacancy.onCall(1).returns(false);
-			game.isAlreadyJoin = sinon.stub().returns(false);
-			game.startGame = sinon.spy();
+			game.startGame = sinon.stub().returns(true);
 			game.joinPlayer = sinon.spy();
-			game.isGameStarted = sinon.stub().returns(true);
 
 			var expected = JSON.stringify({isStarted : true});
 			request(controller)
@@ -160,7 +136,7 @@ describe('routes',function(){
 		it('should serve the information about player turn',function(done){
 			var expected = JSON.stringify({ isTurn:false , name:'ramlal' ,isNewRound:true,namedCard:'notSet'});
 			game.findRequestPlayer = sinon.stub().returns({name:'jishnu',isturn:false});
-			game.players = [{name:'jishnu',isturn:false},{name:'ramlal',isturn:true}];
+			game.getCurrentPlayer = sinon.stub().returns({name:'ramlal',isturn:true});
 			game.actionLog = [];
 			game.isNewRound = sinon.stub().returns(true);
 			game.namedCard = 'notSet'
