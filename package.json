@@ -20,6 +20,9 @@
   },
   "homepage": "https://github.com/jishnu16/BluffCardGame#readme",
   "dependencies": {
+    "body-parser": "^1.14.2",
+    "cookie-parser": "^1.4.0",
+    "express": "^4.13.3",
     "lodash": "^3.10.1"
   },
   "devDependencies": {
