@@ -220,5 +220,48 @@ describe('Game',function(){
 			var expected = [{name:'barney',hand:[{}]},{name:'suman',hand:[{},{}]},{name:'suzi',hand:[{},{},{}]}];
 			assert.deepEqual(expected,game.getShortedPlayersByHand());
 		})
+	})	
+	describe('updateActionLog',function(){
+		it('should update the actiol log',function(){
+			game.actionLog = [];
+			game.updateActionLog({action:'pass'});
+			assert.deepEqual([{action:'pass'}],game.actionLog)
+		})
+		it('should update the actiol log',function(){
+			game.actionLog =  [{action:'pass'},{action:'played'},{action:'pass'}];
+			game.updateActionLog({action:'played'});
+			var expected = [{action:'pass'},{action:'played'},{action:'pass'},{action:'played'}];
+			assert.deepEqual(expected,game.actionLog);
+		})
+	})
+	describe('deleteActionlog',function(){
+		it('should delete the previous action log',function(){
+			game.actionLog = [{action:'pass'},{action:'played'},{action:'pass'}];
+			game.deleteActionlog();
+			assert.deepEqual([],game.actionLog);
+		})
+	})
+	describe('getActionLog',function(){
+		it('should give the action log',function(){
+			game.actionLog = [{action:'pass'},{action:'played'},{action:'pass'}];
+			var expected = [{action:'pass'},{action:'played'},{action:'pass'}];
+			game.getActionLog();
+			assert.deepEqual(expected,game.actionLog);
+		})
+	})
+	describe('getPlayedCards',function(){
+		it('should remove cards from player after play',function(){
+			var player = {name:'hari',isturn:true,hand:[{id:'H7'},{id:'C5'},{id:'DK'},{id:'SQ'}]}
+			game.players = [player,{isturn:false},{isturn:false}];
+			player.playCards = function(){ player.hand = [{id:'DK'},{id:'SQ'}]};
+			game.getPlayedCards(['C5','H7'],'hari');
+			game.findRequestPlayer = function(){return {name:'hari',hand:[{id:'H7'},{id:'C5'},{id:'DK'},{id:'SQ'}]}};
+			game.updateActionLog = function(){};
+			game.changePlayerTurn = function(){};
+
+			var expected = [{id:'DK'},{id:'SQ'}];
+			assert.deepEqual(expected,player.hand);
+
+		})
 	})
 })
