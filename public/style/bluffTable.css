@@ -1,6 +1,11 @@
 #header{
 	text-align: center;
 }
+#opponentTwo{
+	position: absolute;
+	top :13em;
+	right:0;
+}
 #playerhands{
 	position: absolute;
 	left: 50px;
@@ -8,8 +13,8 @@
 }
 #cardsName{
 	position: absolute;
-	right: 25em;
-	bottom: 15%;
+	right: 30em;
+	bottom: 22%;
 }
 #logTable{
 	right: 25px;*/
@@ -19,18 +24,18 @@
 }
 #playCard{
 	position: absolute;
-	right: 205px;
-	bottom: 15%;
+	right: 300px;
+	bottom: 22%;
 }
 #bluff{
 	position: absolute;
-	right: 200px;
-	bottom: 10%;
+	right: 100px;
+	bottom: 22%;
 }
 #pass{
 	position: absolute;
-	right: 203px;
-	bottom: 5%;
+	right: 200px;
+	bottom: 22%;
 }
 #logo{
 	position: absolute;

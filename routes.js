@@ -142,6 +142,12 @@ var resultOfGame = function(req,res){
 	res.end(JSON.stringify(req.game.getPlayerHandCardsLength()));
 }
 
+var serveCardStatus = function(req,res){
+	var requestedPlayerName = req.headers.cookie;
+	var cardStatus = req.game.getCardStatus(requestedPlayerName);
+	res.end(JSON.stringify(cardStatus));
+}
+
 var post_handlers = [
 	{path : '^/joingame$' , handler : requestForJoining},
 	{path : '^/setNamedCard$' , handler : requestForSetNamedCard},
@@ -160,6 +166,7 @@ var get_handlers = [
 	{path: '^/handCards$',handler:serveCards},
 	{path: '^/tableData$',handler:serveTableUpdate},
 	{path: '^/result$', handler:resultOfGame},
+	{path: '^/getCardStatus$', handler:serveCardStatus},
 	{path: '', handler: serveStaticFile},
 	{path: '', handler: fileNotFound}
 ];

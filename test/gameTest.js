@@ -264,4 +264,11 @@ describe('Game',function(){
 
 		})
 	})
+	describe('getCardStatus',function(){
+		it('should return how many cards left other players hand',function(){
+			game.players = [{name:'hari',hand:[{},{},{},{},{}]},{name:'mathur',hand:[{},{},{}]},{name:'raghu',hand:[{},{},{}]}];
+			var expected = [{name:'hari',noOfCards:5},{name:'raghu',noOfCards:3}];
+			assert.deepEqual(expected,game.getCardStatus('mathur'));
+		})
+	})
 })

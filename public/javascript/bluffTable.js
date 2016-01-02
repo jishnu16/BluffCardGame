@@ -38,7 +38,17 @@ var uniqueElementArray = function(cards){
 		return array.indexOf(card) === index;
 	});
 };
+var getCardStatus = function(playerName){
+	$.get('getCardStatus',function(data){
+		var status = JSON.parse(data);
+		var firstOpponent = status[0];
+		var secondOpponent = status[1];
+		$('#opponentOne').html('<h3>'+ firstOpponent.name + '</br>' + firstOpponent.noOfCards);
+		$('#opponentTwo').html('<h3>'+ secondOpponent.name + '</br>' + secondOpponent.noOfCards);
+	})
+}
 var getGameStatus = function(){
+	getCardStatus();
 	$.get('serveGameStatus',function(data){
 		var gameEndingStatus = JSON.parse(data).isGameEnded;
 		var turnMessage = JSON.parse(data).isTurn;
@@ -59,9 +69,15 @@ var getGameStatus = function(){
 			if(isNewRound == true){
 				$('#listOfcardName').prop('disabled',false);
 				$('#selectNamedCard').prop('disabled',false);
+				$('#pass').prop('disabled', true);
+				$('#bluff').prop('disabled',true);
+				$('#playCard').prop('disabled',false);
+
 			}
-		    $('#playCard').prop('disabled', false);
-			$('#pass').prop('disabled', false);
+			else{
+				$('#pass').prop('disabled', false);
+			    $('#playCard').prop('disabled', false);
+			}
 			$('#playerHand').on('click','td',function(){
 				var card = $(this).attr('id');
 				this.style.backgroundColor = "#C0C0C0";
@@ -91,8 +107,7 @@ var onLoading = function(){
 	})
 	$('#selectNamedCard').click(function(){
 		var value = $('#listOfcardName').val();
-		$.post('setNamedCard',value)
-		alert(value);
+		$.post('setNamedCard',value);
 	})
 	$('#playCard').click(function(){
 		$.post('playCard',JSON.stringify(playedCardIds));		
