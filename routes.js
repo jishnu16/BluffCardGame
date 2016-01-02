@@ -1,7 +1,6 @@
 var fs = require('fs');
 var ld = require('lodash');
 
-
 var serveLoginPage = function(req,res,next){
 	req.url = '/index.html';
 	next();
@@ -96,15 +95,19 @@ var getStatus = function(req,res){
 		serveCards(req,res);
 };
 
-var serveTurnMessage = function(req,res){
+var serveGameStatus = function(req,res){
 	try{
 		var requestedPlayerName = req.headers.cookie;
 		var requestedPlayer = req.game.findRequestPlayer(requestedPlayerName);
-		var turn = req.game.getCurrentPlayer();
-		var turnData = { isTurn:requestedPlayer.isturn , name:turn.name ,
+		var currentPlayer = req.game.getCurrentPlayer();
+		var gameStatus = { 
+			isTurn:requestedPlayer.isturn ,
+			name:currentPlayer.name ,
 			isNewRound:req.game.isNewRound(),
-			namedCard:req.game.namedCard}
-		res.end(JSON.stringify(turnData));
+			namedCard:req.game.namedCard,
+			isGameEnded : req.game.isGameFinish(),
+		};
+		res.end(JSON.stringify(gameStatus));
 	}
 	catch(err){
 		res.end(err.message);
@@ -114,7 +117,7 @@ var serveTurnMessage = function(req,res){
 var serveTableUpdate = function(req,res,next){
 	var requestedPlayerName = req.headers.cookie;
 	if(req.game.isPlayer(requestedPlayerName))
-		res.end(JSON.stringify(req.game.actionLog));   //gameObject.serveActionLOgData()
+		res.end(JSON.stringify(req.game.actionLog));   
 	res.end();
 }
 var requestForSetNamedCard = function(req,res){
@@ -135,6 +138,9 @@ var requestForBluff = function(req,res){
 	req.game.decideBluff(challengerName);
 		res.end();
 }
+var resultOfGame = function(req,res){
+	res.end(JSON.stringify(req.game.getPlayerHandCardsLength()));
+}
 
 var post_handlers = [
 	{path : '^/joingame$' , handler : requestForJoining},
@@ -147,12 +153,13 @@ var post_handlers = [
 ];
 
 var get_handlers = [
-	{path: '^/serveTurnMessage$',handler:serveTurnMessage},
+	{path: '^/serveGameStatus$',handler:serveGameStatus},
 	{path: '^/$', handler: serveLoginPage},
 	{path: '^/update$' , handler:serveUpdate},
 	{path: '^/getStatus$' , handler:getStatus},
 	{path: '^/handCards$',handler:serveCards},
 	{path: '^/tableData$',handler:serveTableUpdate},
+	{path: '^/result$', handler:resultOfGame},
 	{path: '', handler: serveStaticFile},
 	{path: '', handler: fileNotFound}
 ];
@@ -176,6 +183,7 @@ Emitter.on('next',function(handlers,req,res,next){
 var allGetHandler = function(req,res){
 	var handlers = get_handlers.filter(matchHandler(req.url));
 	var next = function(){
+
 		Emitter.emit('next',handlers,req,res,next);
 	}
 	next();

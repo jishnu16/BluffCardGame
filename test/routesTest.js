@@ -132,16 +132,17 @@ describe('routes',function(){
 				.expect(200,done)
 		});
 	});
-	describe('/serveTurnMessage',function(){
+	describe('/serveGameStatus',function(){
 		it('should serve the information about player turn',function(done){
-			var expected = JSON.stringify({ isTurn:false , name:'ramlal' ,isNewRound:true,namedCard:'notSet'});
+			var expected = JSON.stringify({ isTurn:false , name:'ramlal' ,isNewRound:true,namedCard:'notSet',isGameEnded:false});
 			game.findRequestPlayer = sinon.stub().returns({name:'jishnu',isturn:false});
 			game.getCurrentPlayer = sinon.stub().returns({name:'ramlal',isturn:true});
 			game.actionLog = [];
 			game.isNewRound = sinon.stub().returns(true);
-			game.namedCard = 'notSet'
+			game.namedCard = 'notSet';
+			game.isGameFinish = sinon.stub().returns(false);
 			request(controller)
-				.get('/serveTurnMessage')
+				.get('/serveGameStatus')
 				.set('Cookie','jishnu')
 				.expect(expected)
 				.expect(200,done)

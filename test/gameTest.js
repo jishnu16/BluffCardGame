@@ -154,14 +154,71 @@ describe('Game',function(){
 		it('should return false when player not played predefined round\'s rank card',function(){
 			game.namedCard = "king";
 			game.getLastPlayedCards = function(){return [{name:'king'},{name:'queen'}]}
-			// game.actionLog = [{cards:}];
 			assert.notOk(game.checkRoundCards());
 		});
 		it('should return true when player played predefined round\'s rank card',function(){
 			game.namedCard = 'king';
 			game.getLastPlayedCards = function(){return [{name:'king'},{name:'king'}]}
-			// game.actionLog = [{cards:[{name:'king'},{name:'king'}]}];
 			assert.ok(game.checkRoundCards());
 		});
+	})
+	describe('getEmptyHandPlayer',function(){
+		it('Should return player whose hand is empty',function(){
+			game.players=[{name:'suman',hand:['DK','C5','HQ']},{name:'barney',hand:[]},{name:'suzi',hand:['CK','H4']}];
+			var expected = game.getEmptyHandPlayer();
+			assert.deepEqual(expected,{name:'barney',hand:[]});
+		});
+		it('Should return undefined when no players hand is empty',function(){
+			game.players=[{name:'suman',hand:['DK','C5','HQ']},{name:'barney',hand:['SK']},{name:'suzi',hand:['CK','H4']}];
+			var expected = game.getEmptyHandPlayer();
+			assert.deepEqual(expected,undefined);
+		})
+	})
+	describe('isGameFinish',function(){
+		it('should return true when a player\'s hand is empty and next player is played cards',function(){
+			game.players=[{name:'suman',hand:['DK','C5']},{name:'barney',hand:[]},{name:'suzi',hand:['CK']}];
+			game.actionLog = [{name:'suman',action:'played'},{name:'barney',action:'played'},{name:'suzi',action:'played'}];
+			assert.ok(game.isGameFinish());
+		});
+		it('should return false when a player\'s hand is empty and he is the last player who played cards',function(){
+			game.players=[{name:'suman',hand:['DK','C5']},{name:'barney',hand:['CK']},{name:'suzi',hand:[]}];
+			game.actionLog = [{name:'suman',action:'played'},{name:'barney',action:'played'},{name:'suzi',action:'played'}];
+			assert.notOk(game.isGameFinish());
+		});
+		it('should return false when a player\'s hand is empty and last player say pass',function(){
+			game.players=[{name:'suman',hand:['DK','C5']},{name:'barney',hand:[]},{name:'suzi',hand:['HK']}];
+			game.actionLog = [{name:'suman',action:'played'},{name:'barney',action:'played'},{name:'suzi',action:'pass'}];
+			assert.notOk(game.isGameFinish());
+		});
+		it('should return false when a player\'s hand is empty and last player say pass',function(){
+			game.players=[{name:'suman',hand:['DK','C5']},{name:'barney',hand:[]},{name:'suzi',hand:['HK']}];
+			game.actionLog = [{name:'suman',action:'played'},{name:'barney',action:'played'}];
+			assert.notOk(game.isGameFinish());
+		});
+		it('should return true when a player\'s hand is empty and after playing last player hand is also empty',function(){
+			game.players=[{name:'suman',hand:['DK','C5']},{name:'barney',hand:[]},{name:'suzi',hand:[]}];
+			game.actionLog = [{name:'suman',action:'played'},{name:'barney',action:'played'},{name:'suzi',action:'played'}];
+			assert.ok(game.isGameFinish());
+		})
+	})
+
+	describe('getLastPlayedPlayer',function(){
+		it('should return the last player action log who played cards',function(){
+			game.actionLog = [{name:'suman',action:'played'},{name:'barney',action:'played'},{name:'suzi',action:'played'}];
+			var expected = {name:'suzi',action:'played'};
+			assert.deepEqual(expected,game.getLastPlayedPlayer());
+		})
+		it('should return the last player action log who played cards',function(){
+				game.actionLog = [{name:'suman',action:'played'},{name:'barney',action:'played'},{name:'suzi',action:'pass'}];
+				var expected = {name:'barney',action:'played'};
+				assert.deepEqual(expected,game.getLastPlayedPlayer());
+		})
+	})
+	describe('getShortedPlayersByHand',function(){
+		it('should return the last player action log who played cards',function(){
+			game.players = [{name:'suman',hand:[{},{}]},{name:'barney',hand:[{}]},{name:'suzi',hand:[{},{},{}]}];
+			var expected = [{name:'barney',hand:[{}]},{name:'suman',hand:[{},{}]},{name:'suzi',hand:[{},{},{}]}];
+			assert.deepEqual(expected,game.getShortedPlayersByHand());
+		})
 	})
 })

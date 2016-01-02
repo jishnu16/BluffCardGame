@@ -12,7 +12,6 @@ var unicodeRepresentationOfCards = function(suit){
 		case 'spades': return '♠';
 		case 'diamonds': return '<span style="color:red">♦</span>';
 		case 'clubs': return '♣';
-
 	}
 };
 
@@ -40,10 +39,14 @@ var uniqueElementArray = function(cards){
 	});
 };
 var getGameStatus = function(){
-	$.get('serveTurnMessage',function(data){
+	$.get('serveGameStatus',function(data){
+		var gameEndingStatus = JSON.parse(data).isGameEnded;
 		var turnMessage = JSON.parse(data).isTurn;
 		var isNewRound = JSON.parse(data).isNewRound;
 		var namedCard = JSON.parse(data).namedCard;
+		if(gameEndingStatus == true){
+			window.location.href = '/scoreBoard.html'
+		}
 		if(turnMessage == false){
 			$('#playCard').prop('disabled', true);
 			$('#pass').prop('disabled', true);
@@ -67,9 +70,8 @@ var getGameStatus = function(){
 			});
 		}
 		$('#turnName').html(JSON.parse(data).name);
-		if(isNewRound == true){
+		if(isNewRound == true)
 			$('#namedCard').html("new round starting");
-		}
 		else
 			$('#namedCard').html(namedCard);
 	})
