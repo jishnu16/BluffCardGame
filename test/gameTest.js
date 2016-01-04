@@ -142,11 +142,11 @@ describe('Game',function(){
 	})
 	describe('getLastPlayedCards',function(){
 		it('when only one player played card it will give those card',function(){
-			game.actionLog = [{cards:['H7']}]
+			game.actionLog = [{action:'played',cards:['H7']}]
 			assert.deepEqual(game.getLastPlayedCards(),['H7'])
 		});
 		it('when multiple player played card it will give last player\'s played cards',function(){
-			game.actionLog = [{cards:['H7','C7']},{cards:['D7','HK']},{cards:['C5']}]
+			game.actionLog = [{action:'played',cards:['H7','C7']},{action:'played',cards:['D7','HK']},{action:'played',cards:['C5']}]
 			assert.deepEqual(game.getLastPlayedCards(),['C5']);
 		});
 	})
@@ -198,6 +198,11 @@ describe('Game',function(){
 		it('should return true when a player\'s hand is empty and after playing last player hand is also empty',function(){
 			game.players=[{name:'suman',hand:['DK','C5']},{name:'barney',hand:[]},{name:'suzi',hand:[]}];
 			game.actionLog = [{name:'suman',action:'played'},{name:'barney',action:'played'},{name:'suzi',action:'played'}];
+			assert.ok(game.isGameFinish());
+		});
+		it('should return true when a player\'s hand is empty and a new round going to start',function(){
+			game.players=[{name:'suman',hand:['DK','C5']},{name:'barney',hand:[]},{name:'suzi',hand:[]}];
+			game.actionLog = [];
 			assert.ok(game.isGameFinish());
 		})
 	})
