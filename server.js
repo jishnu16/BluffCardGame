@@ -1,5 +1,5 @@
 var http = require('http');
-var Controller = require('./routes.js');
+var Controller = require('./controller.js');
 var lib = require('./lib/game.js');
 var deck = require('./lib/deck.js');
 var Deck = deck.Deck;

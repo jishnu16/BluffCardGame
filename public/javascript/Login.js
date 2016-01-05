@@ -7,7 +7,8 @@ var requestForUpdate = function(){
 };
 var requestToJoinGame = function(){
 	var username = $('#name').val();
-	$.post('joingame',username,function(data){
+	var name = {name:username};
+	$.post('joingame',name,function(data){
 		$('#message').html(data);
 		if(JSON.parse(data).isStarted == true)
 			window.location.href = '/bluffGame.html';

@@ -12,6 +12,7 @@ changed to findRequestedPlayer from findRequestPlayer
 isplayer name should be changed to 'hasPlayer'
 change getPlayedCards,decideBluff function name.
 puts games property in game 
+
 after pass player can say bluff but its broke 
 
 select named card button first then player able to play.

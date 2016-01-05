@@ -81,7 +81,7 @@ var getGameStatus = function(){
 	});
 };
 var onLoading = function(){
-	var Interval = setInterval(getGameStatus,1000)
+	var Interval = setInterval(getGameStatus,1000);
 	$.get('handCards',function(data){
 		$('#playerHand').html(generateHandCard(data));
 	});
@@ -91,11 +91,13 @@ var onLoading = function(){
 	})
 	$('#selectNamedCard').click(function(){
 		var value = $('#listOfcardName').val();
-		$.post('setNamedCard',value)
+		var roundCard = {setCard:value};
+		$.post('setNamedCard',roundCard)
 		alert(value);
 	})
 	$('#playCard').click(function(){
-		$.post('playCard',JSON.stringify(playedCardIds));		
+		var table = {cards:playedCardIds};
+		$.post('playCard',table);		
 		$.get('getStatus',function(data){
 			var card = JSON.parse(data);
 			$('#playerHand').html(generateHandCard(data));
