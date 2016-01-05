@@ -1,4 +1,3 @@
-// var Controller = require('../routes.js');
 var Controller = require('../controller.js');
 
 var request = require('supertest');

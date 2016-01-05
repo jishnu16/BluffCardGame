@@ -4,7 +4,7 @@
   "description": "",
   "main": "routes.js",
   "scripts": {
-    "test": "mocha --recursive",
+    "test": "./node_modules/.bin/istanbul test ./node_modules/.bin/_mocha -- -R spec",
     "min": "mocha -R min --recursive",
     "watch": "mocha -R min --watch --recursive",
     "start": "node server.js"
@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "chai": "^3.4.1",
+    "istanbul": "^0.4.1",
     "mocha": "^2.3.4",
     "sinon": "^1.17.2",
     "supertest": "^1.1.0"

@@ -57,6 +57,11 @@ var serveGameStatus = function(req,res){
 app.get('/serveGameStatus',function(req,res){
 	serveGameStatus(req,res);
 });
+app.get('/getCardStatus',function(req,res){
+	var requestedPlayerName = req.cookies.name;
+	var cardStatus = req.game.getCardStatus(requestedPlayerName);
+	res.send(JSON.stringify(cardStatus));
+})
 app.post('/pass',function(req,res){
 	var player = req.cookies.name;
 	req.game.changeTurnAfterPass(player);

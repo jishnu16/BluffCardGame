@@ -57,6 +57,7 @@ var getGameStatus = function(){
 		if(gameEndingStatus == true){
 			window.location.href = '/scoreBoard.html'
 		}
+		$('#bluff').prop('disabled',false);
 		if(turnMessage == false){
 			$('#playCard').prop('disabled', true);
 			$('#pass').prop('disabled', true);
@@ -70,7 +71,6 @@ var getGameStatus = function(){
 				$('#listOfcardName').prop('disabled',false);
 				$('#selectNamedCard').prop('disabled',false);
 				$('#pass').prop('disabled', true);
-				$('#bluff').prop('disabled',true);
 				$('#playCard').prop('disabled',false);
 
 			}
