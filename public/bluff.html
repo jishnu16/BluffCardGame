@@ -1,0 +1,55 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+		<link rel = "stylesheet" type = "text/css" href = "style/bluff.css">
+		<script type = "text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
+		</script>
+		<script type = "text/javascript" src="../javascript/bluffTable.js"></script>
+		<title>BluffTable</title>		
+	</head>
+	<body >
+		<h2 align="center">Bluff Game</h2>
+
+		<div class="table">
+			<div class="round">Round Card
+				<h3 id="namedCard"></h3>
+			</div>
+			<div class="player">
+				<table>
+					<tr id="playerHand"></tr>
+				</table>
+			</div>
+			<div class="status">GAME STATUS
+				<table id = 'logTable'></table>
+			</div>
+			<div class="opponent1">Opponent 1</div>
+			<div class="opponent2">Opponent 2</div>
+			<div class="playerTurn">Now Player Turn :	
+				<div class="turnName"></div>
+			</div> 
+			<div class="playerButton">
+				<div id="cardsName">
+					<select id="listOfcardName">
+						<option value="ace">Ace</option>
+						<option value="king">King</option>
+						<option value="queen">Queen</option>
+						<option value="jack">Jack</option>
+						<option value=10>10</option>
+						<option value=9>9</option>
+						<option value=8>8</option>
+						<option value=7>7</option>
+						<option value=6>6</option>
+						<option value=5>5</option>
+						<option value=4>4</option>
+						<option value=3>3</option>
+						<option value=2>2</option>
+					</select>
+					<button type="button" id="selectNamedCard">Submit Name Card</button>
+					<button type="button" id="playCard">Click To Play</button>	
+					<button type="button" id="pass">Click To Pass</button>	
+					<button type="button" id="bluff">Click For Bluff</button>		
+				</div> 
+			</div>	
+		</div>
+	</body>
+</html>
