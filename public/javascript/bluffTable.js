@@ -43,10 +43,12 @@ var uniqueElementArray = function(cards){
 var getCardStatus = function(playerName){
 	$.get('getCardStatus',function(data){
 		var status = JSON.parse(data);
-		var firstOpponent = status[0];
-		var secondOpponent = status[1];
+		var firstOpponent = status[1];
+		var secondOpponent = status[2];
+		var ownPlayer = status[0];
 		$('.opponent1').html('<h3>'+ firstOpponent.name + '</br>' + firstOpponent.noOfCards+'   cards');
 		$('.opponent2').html('<h3>'+ secondOpponent.name + '</br>' + secondOpponent.noOfCards+'   cards');
+		$('.ownPlayer').html('<h3>'+ ownPlayer.name +"   "+ ownPlayer.noOfCards+'   cards');
 	})
 }
 var getGameStatus = function(){

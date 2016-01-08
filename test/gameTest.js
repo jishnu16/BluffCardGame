@@ -272,8 +272,16 @@ describe('Game',function(){
 	describe('getCardStatus',function(){
 		it('should return how many cards left other players hand',function(){
 			game.players = [{name:'hari',hand:[{},{},{},{},{}]},{name:'mathur',hand:[{},{},{}]},{name:'raghu',hand:[{},{},{}]}];
-			var expected = [{name:'hari',noOfCards:5},{name:'raghu',noOfCards:3}];
+			var expected = [{name:'mathur',noOfCards:3},{name:'raghu',noOfCards:3},{name:'hari',noOfCards:5}];
 			assert.deepEqual(expected,game.getCardStatus('mathur'));
 		})
+	})
+	describe("getPlayerCards",function(){
+		it("should give cards of player hand",function(){
+			var player = {name:'hari',isturn:true,hand:[{id:'H7'},{id:'C5'},{id:'DK'},{id:'SQ'}]}
+			game.players = [player];
+			var expected = [{id:'H7'},{id:'C5'},{id:'DK'},{id:'SQ'}];
+			assert.deepEqual(game.getPlayerCards('hari'),expected);
+		});
 	})
 })

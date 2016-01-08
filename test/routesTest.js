@@ -62,11 +62,12 @@ describe('routes',function(){
 	})
 	describe('/handCards',function(){
 		it('should serve all cards which are in requested player hand',function(done){
-			game.findRequestPlayer = sinon.stub().returns({hand:['cards']});
-			var expected = JSON.stringify(['cards'])
+			game.getPlayerCards = sinon.stub().returns([{name:3},{name:4},{name:9}]);
+
+			var expected = JSON.stringify([{name:3},{name:4},{name:9}])
 			request(controller)
 				.get('/handCards')
-				.set('Cookie','jishnu')
+				.set('Cookie','name=jishnu')
 				.expect(200)
 				.expect(expected,done)
 		});
@@ -77,7 +78,7 @@ describe('routes',function(){
 			game.setNameCard = sinon.spy();
 			request(controller)
 				.post('/setNamedCard')
-				.set('Cookie','jishnu')
+				.set('Cookie','name=jishnu')
 				.send('setCard=king')
 				.expect(200,done)
 		});
@@ -98,11 +99,11 @@ describe('routes',function(){
 	describe('/getStatus',function(){
 		it('should serve current status of requested player hand',function(done){
 			game.isPlayer = sinon.stub().returns(true);
-			game.findRequestPlayer = sinon.stub().returns({hand:['cards']});
-			var expected = JSON.stringify(['cards'])
+			game.getPlayerCards = sinon.stub().returns([{name:3},{name:4},{name:9}]);
+			var expected = JSON.stringify([{name:3},{name:4},{name:9}])
 			request(controller)
 				.get('/getStatus')
-				.set('Cookie','jishnu')
+				.set('Cookie','name=jishnu')
 				.expect(expected)
 				.expect(200,done)
 

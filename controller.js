@@ -13,8 +13,7 @@ app.get('/update',function(req,res){
 var serveCards = function(req,res){
 	var playerName = req.cookies.name;
 	try{
-		var requestedPlayer = req.game.findRequestPlayer(playerName);
-		res.send(JSON.stringify(requestedPlayer.hand));
+		res.send(JSON.stringify(req.game.getPlayerCards(playerName)));
 	}
 	catch(err){
 		res.send(err.message);
