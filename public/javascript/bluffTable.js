@@ -18,14 +18,16 @@ var unicodeRepresentationOfCards = function(suit){
 var generateHandCard = function(cards){
 	var handedCards = JSON.parse(cards);
 	return handedCards.map(function(singleCard){
-		return '<td id ="'+singleCard.id + '"class = "playerCard"'+'><div class="'+singleCard.suit+'">'+ singleCard.name+'</br>'+unicodeRepresentationOfCards(singleCard.suit)+'</div></td>';
+		return '<td id ="'+singleCard.id + '"class = "playerCard"'+'><div class="'+singleCard.suit+'">'
+		+ singleCard.name+'</br>'+unicodeRepresentationOfCards(singleCard.suit)+'</div></td>';
 	});
 }
 var generateLogTableData = function(data){
 	var tableData = JSON.parse(data);
 	return tableData.map(function(singleData){
 		if(singleData.action == 'played'){
-			return '<tr><td>'+singleData.name+'  played  '+singleData.cards.length+'  cards</td></tr>';
+			return '<tr><td>'+'<b>'+singleData.name+'</b>'+'  played  '
+			+singleData.cards.length+'  cards</td></tr>';
 		}
 		if(singleData.action == 'pass'){
 			return '<tr><td>'+singleData.name+' say passed </td></tr>';
@@ -43,8 +45,8 @@ var getCardStatus = function(playerName){
 		var status = JSON.parse(data);
 		var firstOpponent = status[0];
 		var secondOpponent = status[1];
-		$('#opponentOne').html('<h3>'+ firstOpponent.name + '</br>' + firstOpponent.noOfCards);
-		$('#opponentTwo').html('<h3>'+ secondOpponent.name + '</br>' + secondOpponent.noOfCards);
+		$('.opponent1').html('<h3>'+ firstOpponent.name + '</br>' + firstOpponent.noOfCards+'   cards');
+		$('.opponent2').html('<h3>'+ secondOpponent.name + '</br>' + secondOpponent.noOfCards+'   cards');
 	})
 }
 var getGameStatus = function(){
@@ -85,7 +87,7 @@ var getGameStatus = function(){
 				playedCardIds = uniqueElementArray(playedCardIds);
 			});
 		}
-		$('#turnName').html(JSON.parse(data).name);
+		$('.turnName').html(JSON.parse(data).name);
 		if(isNewRound == true)
 			$('#namedCard').html("new round starting");
 		else

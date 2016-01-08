@@ -1,0 +1,118 @@
+.table {
+	left: 10px;
+    position: relative;
+    width: 1640px;
+    height: 700px;
+    border: 3px solid #F2C78F;
+} 
+
+.round {
+    text-align: center;
+    position: absolute;
+    padding-top: 10px;
+    padding-left:10px; 
+    top: 10px;
+    right: 10px;
+    width: 200px;
+    height: 100px;
+    border: 3px solid #F2C78F;
+}
+.player {
+    position: absolute;
+    overflow-x:scroll;
+    bottom: 10px;
+    right: 65px;
+    width: 1500px;
+    height: 130px;
+    border: 3px solid #F2C78F;
+}
+.status {
+    position: absolute;
+    padding-top: 10px;	
+    text-align: center;
+    overflow:scroll;
+    top: 20px;
+    right: 620px;
+    width: 400px;
+    height: 200px;
+    border: 3px solid #F2C78F;
+}
+.opponent1 {
+	position: absolute;
+    line-height: 5.5em;
+	/*padding-top: 10px;	*/
+    text-align: center;
+    top: 250px;
+    right: 10px;
+    width: 200px;
+    height: 200px;
+    border: 3px solid #F2C78F;
+} 
+.opponent2 {
+	position: absolute;
+    line-height: 5.5em;
+	/*padding-top: 10px;	*/
+    text-align: center;
+    top: 250px;
+    left: 10px;
+    width: 200px;
+    height: 200px;
+    border: 3px solid #F2C78F;
+}
+.playerButton{
+    position: absolute;
+    padding-top: 10px;  
+    top: 500px;
+    right: 550px;
+    width: 500px;
+    height: 40px;
+}
+.playerTurn {
+    position: absolute;
+    padding-top: 10px;
+    padding-left:10px; 
+    top: 350px;
+    right: 640px;
+    width: 350px;
+    height: 25px;
+    border: 3px solid #F2C78F;
+} 
+.turnName{
+    font-weight: bold;
+    position: absolute;
+    padding-top: 10px;
+    top: 0px;
+    left: 150px;
+    width: 100px;
+    height: 25px;
+}
+.spades {
+    height: 120px;
+    width: 65;
+    border: 2px solid black;
+}
+.diamonds {
+    height: 120px;
+    width: 65;
+    border: 2px solid red;
+}
+.clubs {
+    height: 120px;
+    width: 65;
+    border: 2px solid black;
+}
+.hearts {
+    height: 120px;
+    width: 65;
+    border: 2px solid red;
+}
+#logTable{
+    text-align: center;
+    padding-top: 10px;  
+    padding-bottom: 10px;
+    right: 25px;*/
+    height:100%;
+    width: 100%;
+
+}
+
