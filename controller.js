@@ -79,7 +79,7 @@ app.post('/bluff',function(req,res){
 })	
 app.post('/setNamedCard',function(req,res){
 	var requestedPlayerName = req.cookies.name;
-	if(req.game.isPlayer(requestedPlayerName)){
+	if(req.game.isPlayer(requestedPlayerName) && req.game.isNewRound()){
 		req.game.setNameCard(req.body.setCard);
 	};
 	res.end();
