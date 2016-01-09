@@ -22,6 +22,7 @@ var generateHandCard = function(cards){
 		+ singleCard.name+'</br>'+unicodeRepresentationOfCards(singleCard.suit)+'</div></td>';
 	});
 }
+
 var generateLogTableData = function(data){
 	var tableData = JSON.parse(data);
 	return tableData.map(function(singleData){
@@ -35,63 +36,80 @@ var generateLogTableData = function(data){
 
 	});
 }
+
 var uniqueElementArray = function(cards){
 	return cards.filter(function(card,index,array){
 		return array.indexOf(card) === index;
 	});
 };
+
 var getCardStatus = function(playerName){
 	$.get('getCardStatus',function(data){
 		var status = JSON.parse(data);
-		var firstOpponent = status[1];
-		var secondOpponent = status[2];
+		var opponent1 = status[1];
+		var opponent2 = status[2];
 		var ownPlayer = status[0];
-		$('.opponent1').html('<h3>'+ firstOpponent.name + '</br>' + firstOpponent.noOfCards+'   cards');
-		$('.opponent2').html('<h3>'+ secondOpponent.name + '</br>' + secondOpponent.noOfCards+'   cards');
+		$('.opponent1').html('<h3>'+ opponent1.name + '</br>' + opponent1.noOfCards+'   cards');
+		$('.opponent2').html('<h3>'+ opponent2.name + '</br>' + opponent2.noOfCards+'   cards');
 		$('.ownPlayer').html('<h3>'+ ownPlayer.name +"   "+ ownPlayer.noOfCards+'   cards');
 	})
 }
+
+var giveButtonDisable = function(){
+	$('#playCard').prop('disabled', true);
+	$('#pass').prop('disabled', true);
+	$('#playerHand').off('click');
+	$('#listOfcardName').prop('disabled',true);
+	$('#selectNamedCard').prop('disabled',true);
+	$('#bluff').prop('disabled',true);
+}
+
+var giveButtonAble = function(isNewRound){
+	if(isNewRound == true){
+		$('#listOfcardName').prop('disabled',false);
+		$('#selectNamedCard').prop('disabled',false);
+		$('#pass').prop('disabled', true);
+		$('#playCard').prop('disabled',false);
+	    $('#bluff').prop('disabled',true);
+	}
+	else{
+		$('#pass').prop('disabled', false);
+	    $('#playCard').prop('disabled', false);
+	    $('#bluff').prop('disabled',false);
+	}
+}
+
+var clickOnCards = function(){
+	$('#playerHand').on('click','td',function(){
+		var card = $(this).attr('id');
+		this.style.backgroundColor = "#C0C0C0";
+		playedCardIds.push(card);
+		playedCardIds = uniqueElementArray(playedCardIds);
+	});
+}
+
 var getGameStatus = function(){
 	getCardStatus();
 	$.get('serveGameStatus',function(data){
-		var gameEndingStatus = JSON.parse(data).isGameEnded;
-		var turnMessage = JSON.parse(data).isTurn;
-		var isNewRound = JSON.parse(data).isNewRound;
-		var namedCard = JSON.parse(data).namedCard;
+		var gameStatus = JSON.parse(data);
+		var gameEndingStatus = gameStatus.isGameEnded;
+		var turnMessage = gameStatus.isTurn;
+		var isNewRound = gameStatus.isNewRound;
+		var namedCard = gameStatus.namedCard;
 		if(gameEndingStatus == true){
 			window.location.href = '/scoreBoard.html'
 		}
-		$('#bluff').prop('disabled',false);
 		if(turnMessage == false){
-			$('#playCard').prop('disabled', true);
-			$('#pass').prop('disabled', true);
-			$('#playerHand').off('click');
-			$('#listOfcardName').prop('disabled',true);
-			$('#selectNamedCard').prop('disabled',true);
+			giveButtonDisable();
 			getHandCardStatus();
 		}
 		if(turnMessage == true){
-			if(isNewRound == true){
-				$('#listOfcardName').prop('disabled',false);
-				$('#selectNamedCard').prop('disabled',false);
-				$('#pass').prop('disabled', true);
-				$('#playCard').prop('disabled',false);
-
-			}
-			else{
-				$('#pass').prop('disabled', false);
-			    $('#playCard').prop('disabled', false);
-			}
-			$('#playerHand').on('click','td',function(){
-				var card = $(this).attr('id');
-				this.style.backgroundColor = "#C0C0C0";
-				playedCardIds.push(card);
-				playedCardIds = uniqueElementArray(playedCardIds);
-			});
+			giveButtonAble(isNewRound);
+			clickOnCards();
 		}
 		$('.turnName').html(JSON.parse(data).name);
 		if(isNewRound == true)
-			$('#namedCard').html("new round starting");
+			$('#namedCard').html("New round starting");
 		else
 			$('#namedCard').html(namedCard);
 	})
@@ -100,20 +118,23 @@ var getGameStatus = function(){
 		$('#logTable').html(generateLogTableData(data));
 	});
 };
-var onLoading = function(){
-	var Interval = setInterval(getGameStatus,1000);
-	$.get('handCards',function(data){
-		$('#playerHand').html(generateHandCard(data));
-	});
+
+var clickOnPass = function(){
 	$('#pass').click(function(){
 		$.post('pass');	
 		playedCardIds = [];	
 	});
+}
+
+var clickToSelectNamedCard = function(){
 	$('#selectNamedCard').click(function(){
 		var value = $('#listOfcardName').val();
 		var roundCard = {setCard:value};
 		$.post('setNamedCard',roundCard)
 	});
+}
+
+var clickToPlayCards = function(){
 	$('#playCard').click(function(){
 		var table = {cards:playedCardIds};
 		$.post('playCard',table);		
@@ -123,6 +144,9 @@ var onLoading = function(){
 		});
 		playedCardIds = [];
 	});
+}
+
+var clickForBluff = function(){
 	$('#bluff').click(function(){
 		$.post('bluff');
 		$.get('getStatus',function(data){
@@ -130,6 +154,21 @@ var onLoading = function(){
 			$('#playerHand').html(generateHandCard(data));
 		});
 		playedCardIds = [];
-	})
+	});
+}
+
+var getHandCard = function(){
+	$.get('handCards',function(data){
+		$('#playerHand').html(generateHandCard(data));
+	});
+};
+
+var onLoading = function(){
+	var Interval = setInterval(getGameStatus,1000);
+	getHandCard();
+	clickOnPass();
+	clickToSelectNamedCard();
+	clickToPlayCards();
+	clickForBluff();
 }
 $(document).ready(onLoading);
