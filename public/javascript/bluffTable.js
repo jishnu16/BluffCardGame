@@ -127,10 +127,10 @@ var clickOnPass = function(){
 }
 
 var clickToSelectNamedCard = function(){
-	$('#selectNamedCard').click(function(){
+	$('#playCard').click(function(){
 		var value = $('#listOfcardName').val();
 		var roundCard = {setCard:value};
-		$.post('setNamedCard',roundCard)
+		$.post('setNamedCard',roundCard);
 	});
 }
 
