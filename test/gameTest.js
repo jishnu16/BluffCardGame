@@ -260,7 +260,7 @@ describe('Game',function(){
 			game.players = [player,{isturn:false},{isturn:false}];
 			player.playCards = function(){ player.hand = [{id:'DK'},{id:'SQ'}]};
 			game.getPlayedCards(['C5','H7'],'hari');
-			game.findRequestPlayer = function(){return {name:'hari',hand:[{id:'H7'},{id:'C5'},{id:'DK'},{id:'SQ'}]}};
+			game.findRequestPlayer = function(){return {name:'hari',hand:[{id:'C5'},{id:'H7'},{id:'DK'},{id:'SQ'}]}};
 			game.updateActionLog = function(){};
 			game.changePlayerTurn = function(){};
 
@@ -280,7 +280,7 @@ describe('Game',function(){
 		it("should give cards of player hand",function(){
 			var player = {name:'hari',isturn:true,hand:[{id:'H7'},{id:'C5'},{id:'DK'},{id:'SQ'}]}
 			game.players = [player];
-			var expected = [{id:'H7'},{id:'C5'},{id:'DK'},{id:'SQ'}];
+			var expected = [{id:'C5'},{id:'H7'},{id:'DK'},{id:'SQ'}];
 			assert.deepEqual(game.getPlayerCards('hari'),expected);
 		});
 	})
