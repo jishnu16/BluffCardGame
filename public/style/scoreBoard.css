@@ -1,1 +1,37 @@
-scoreBoard.css
+.resultTable {
+    left: 25em;
+    position: relative;
+    width: 41em;
+    height: 23em;
+    border: 3px solid #F2C78F;
+    top: 6em;
+    text-align: center;
+    border-radius: 14px;
+}
+#position {
+    position: absolute;
+    width: 4em;
+    left: 5em;
+    /*border: 3px solid #F2C78F;*/
+    top: 5.4em;
+    height: 12em;
+    text-align: center;
+}
+#player {
+    position: absolute;
+    width: 19em;
+    left: 11em;
+    /*border: 3px solid #F2C78F;*/
+    top: 5.4em;
+    text-align: center;
+    height: 12em;
+}
+#card {
+    position: absolute;
+    width: 10em;
+    height: 12em;
+    /*border: 3px solid #F2C78F;*/
+    left: 28em;
+    text-align: center;
+    top: 5.4em;
+}

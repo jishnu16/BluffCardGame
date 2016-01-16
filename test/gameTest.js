@@ -1,6 +1,6 @@
 var game = require('../lib/game.js');
 var Game = game.Game;
-var sinon = require('sinon');	
+var sinon = require('sinon');
 var expect = require('chai').expect;
 var assert = require('chai').assert;
 
@@ -44,13 +44,13 @@ describe('Game',function(){
 			game.players = [];
 			game.joinPlayer('one');
 			game.joinPlayer('two');
-			assert.throw(function() { game.joinPlayer('two'); },Error, 'already joined');
+			assert.throw(function() { game.joinPlayer('two'); },Error, 'Already joined');
 
 			assert.equal(game.players.length,2)
 		})
 		it('should not be able to join a player in the game if no hasVacancy',function(){
 			game.players = [{},{},{}];
-			assert.throw(function() { game.joinPlayer('four'); },Error, 'try after some time');
+			assert.throw(function() { game.joinPlayer('four'); },Error, 'Try after some time');
 			assert.equal(game.players.length,3)
 		})
 	})
@@ -63,17 +63,17 @@ describe('Game',function(){
 		})
 		it('game should not start if hasVacancy',function(){
 			game.players = [{isturn:false},{}];
-			assert.throw(function() { game.startGame(); },Error, 'waiting for other players to join');
+			assert.throw(function() { game.startGame(); },Error, 'Waiting for other players to join');
 		})
 	})
 	describe('findRequestedPlayer',function(){
 		it('should give the player who is requested',function(){
-			game.players = [{name:'santa',hand:[]}]	
+			game.players = [{name:'santa',hand:[]}]
 			var result = game.findRequestPlayer('santa');
 			assert.deepEqual(result,{name:'santa',hand:[]})
 		})
 		it('should give undefined when requested player is not present in game',function(){
-			game.players = [{name:'santaraam',hand:[]}];	
+			game.players = [{name:'santaraam',hand:[]}];
 			assert.throw(function() { game.findRequestPlayer('santa'); },Error,'player not found');
 		})
 	});
@@ -225,7 +225,7 @@ describe('Game',function(){
 			var expected = [{name:'barney',hand:[{}]},{name:'suman',hand:[{},{}]},{name:'suzi',hand:[{},{},{}]}];
 			assert.deepEqual(expected,game.getShortedPlayersByHand());
 		})
-	})	
+	})
 	describe('updateActionLog',function(){
 		it('should update the actiol log',function(){
 			game.actionLog = [];
