@@ -75,6 +75,7 @@ describe('routes',function(){
 	describe('POST /setNamedCard',function(){
 		it('should set requested namedCard',function(done){
 			game.isPlayer = sinon.stub().returns(true);
+			game.isNewRound = sinon.stub().returns(true);
 			game.setNameCard = sinon.spy();
 			request(controller)
 				.post('/setNamedCard')

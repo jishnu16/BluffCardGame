@@ -1,0 +1,39 @@
+.table {
+  left: 29em;
+  position: relative;
+  width: 33em;
+  height: 235px;
+  border: 3px solid #F2C78F;
+  top: 7em;
+  text-align: center;
+  border-radius: 7px;
+
+}
+.submit {
+  position: relative;
+  width: 11em;
+  left: 11em;
+  top: 1em;
+}
+#message {
+  font-weight: bold;
+  position: relative;
+  width: 31em;
+  height: 44px;
+  left: 1em;
+  top: 4em;
+  padding-top: 13px;
+}
+input[type=text] {
+    padding:5px;
+    border:2px solid #ccc;
+    border-radius: 5px;
+    width: 20em;
+}
+input[type=submit] {
+    padding:7px 15px;
+    background:#ccc;
+    border:0 none;
+    cursor:pointer;
+    border-radius: 7px;
+}
