@@ -1,4 +1,6 @@
 var game = require('../lib/game.js');
+var Deck = require('../lib/deck.js').Deck;
+var Player = require('../lib/player.js').Player;
 var Game = game.Game;
 var sinon = require('sinon');	
 var expect = require('chai').expect;
@@ -24,7 +26,7 @@ describe('Game',function(){
 	})
 	describe('isAlreadyJoin',function(){
 		it('should return true when a player already joined',function(){
-			game.players = [{name:'santa'}]
+			game.players = [{name:'ramu'},{name:'santa'}]
 			assert.ok(game.isAlreadyJoin('santa'));
 		})
 		it('should return false when a player didn\'t join the game',function(){
@@ -282,6 +284,78 @@ describe('Game',function(){
 			game.players = [player];
 			var expected = [{id:'H7'},{id:'C5'},{id:'DK'},{id:'SQ'}];
 			assert.deepEqual(game.getPlayerCards('hari'),expected);
+		});
+	})
+	describe('getCurrentPlayer',function(){
+		it('should give error if game is not started',function(){
+			game.players = [{name:'kora',isturn:false},{name:'kagaj',isturn:true},{name:'dil',isturn:false}];
+			game.isStarted = false;
+
+			assert.throw(function() { game.getCurrentPlayer(); },Error,'game not yet started');
+		});
+		it('should give the player whose turn is going on',function(){
+			game.players = [{name:'kora',isturn:false},{name:'kagaj',isturn:true},{name:'dil',isturn:false}];
+			game.isStarted = true;
+			var expected = {name:'kagaj',isturn:true};
+
+			assert.deepEqual(expected,game.getCurrentPlayer());
+		});
+	})
+	describe('deal',function(){
+		it('should distribute cards to all player',function(){
+		game.pack = new Deck().pack;
+		game.players = [new Player('ram'),new Player('ramu'),new Player('kaka')];
+		game.deal();
+		assert.equal(game.players[0].hand.length,18);
+		assert.equal(game.players[1].hand.length,17);
+		assert.equal(game.players[2].hand.length,17);
+		});
+	})
+	describe('decideBluff',function(){
+		it('should decide result of chalange when last played player played right cards',function(){
+			game.canBluff = sinon.stub().returns(true);
+			game.checkRoundCards = sinon.stub().returns(true);
+			game.findRequestPlayer = sinon.spy();
+			game.takeRoundCards = sinon.spy();
+			
+			game.decideBluff();
+
+			assert.ok(game.canBluff.called);
+			assert.ok(game.checkRoundCards.called);
+			assert.ok(game.findRequestPlayer.called);
+			assert.ok(game.takeRoundCards.called);
+		});
+		it('should decide result of chalange when last played player played wrong cards',function(){
+			game.canBluff = sinon.stub().returns(true);
+			game.checkRoundCards = sinon.stub().returns(false);
+			game.getLastPlayedPlayer = sinon.stub().returns({name:'abc'});
+			game.findRequestPlayer = sinon.spy();
+			game.takeRoundCards = sinon.spy();
+			
+			game.decideBluff();
+
+			assert.ok(game.canBluff.called);
+			assert.ok(game.checkRoundCards.called);
+			assert.ok(game.getLastPlayedPlayer.called);
+			assert.ok(game.takeRoundCards.called);
+			assert.ok(game.findRequestPlayer.called);
+		});
+	})
+	describe('takeRoundCards',function(){
+		it('should give all played cards to the looser player hand',function(){
+			var player = new Player('ramu');
+			game.getAllPlayedCards = sinon.stub().returns([{},{},{}]);
+			game.deleteActionlog = sinon.spy();
+			game.takeRoundCards(player);
+			assert.ok(game.getAllPlayedCards.calledOnce);
+			assert.ok(game.deleteActionlog.calledOnce);
+			assert.equal(player.hand.length,3);
+		});
+	})
+	describe('getAllPlayedCards',function(){
+		it('should collect all played cards from action log',function(){
+			game.actionLog = [{name:'suman',action:'played',cards:[{},{},{}]},{name:'barney',action:'played'},{name:'suzi',action:'played'}];
+
 		});
 	})
 })
