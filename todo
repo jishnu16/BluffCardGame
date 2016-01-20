@@ -1,18 +1,12 @@
-rename javascript to lib 																	//done
-find out folder structure needed for public and change accordingly
-use camel case to give file name															//done
-pull player related behaviour to back in the player object									//doing
-exports constructor using module.exports													//done
-use _find instated of [].filter 															//done
-modified the generate card functin using forEach											//done	
-change deck.js make a deck constructor
-change game.js make a game constructor														//doing
-name should be changed to startPlaying from start game
-changed to findRequestedPlayer from findRequestPlayer
-isplayer name should be changed to 'hasPlayer'
-change getPlayedCards,decideBluff function name.
-puts games property in game 
+multi game
+same name two player not abel to playing
+challenge result show to player massege.
+colour notification for turn 
 
-after pass player can say bluff but its broke 
+=========================================
+give each game a unique id; done//
+set game id in cookie so that we can know in which game the player belong;
+make a games constructor who holds the games //done
+games have a method loadGame that return a single game in which the requested player belong;
+if a new plaer request who doesn't belong in any game then if game has vacency then that game will be load other wise a new game will be created ;
 
-select named card button first then player able to play.
