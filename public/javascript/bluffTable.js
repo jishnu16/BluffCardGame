@@ -37,6 +37,13 @@ var generateLogTableData = function(data){
 	});
 }
 
+var generateChallengeData = function(data){
+	var challengeStuatus = JSON.parse(data);
+	if(challengeStuatus.length>0)
+		return challengeStuatus[0]+ ' Challenge '+challengeStuatus[1]+'&'+ challengeStuatus[2]+' Loose the challenge';
+	return '';
+}
+
 var uniqueElementArray = function(cards){
 	return cards.filter(function(card,index,array){
 		return array.indexOf(card) === index;
@@ -52,6 +59,12 @@ var getCardStatus = function(playerName){
 		$('.opponent1').html('<h3>'+ opponent1.name + '</br>' + opponent1.noOfCards+'   cards');
 		$('.opponent2').html('<h3>'+ opponent2.name + '</br>' + opponent2.noOfCards+'   cards');
 		$('.ownPlayer').html('<h3>'+ ownPlayer.name +"   "+ ownPlayer.noOfCards+'   cards');
+		if(opponent1.isturn==true){ $('.opponent1').css({"background-color":"red"})};
+	    if(opponent2.isturn==true){ $('.opponent2').css({"background-color":"red"})};
+	    if(ownPlayer.isturn== true){$('.ownPlayer').css({"background-color":"red"})};
+	    if(opponent1.isturn==false){ $('.opponent1').css({"background-color":"green"})};
+	    if(opponent2.isturn==false){ $('.opponent2').css({"background-color":"green"})};
+	    if(ownPlayer.isturn == false){$('.ownPlayer').css({"background-color":"green"})};
 	})
 }
 
@@ -90,6 +103,7 @@ var clickOnCards = function(){
 
 var getGameStatus = function(){
 	getCardStatus();
+
 	$.get('serveGameStatus',function(data){
 		var gameStatus = JSON.parse(data);
 		var gameEndingStatus = gameStatus.isGameEnded;
@@ -117,6 +131,9 @@ var getGameStatus = function(){
 	$.get('tableData',function(data){
 		$('#logTable').html(generateLogTableData(data));
 	});
+	$.get('getChallengeStatus',function(data){
+		$('#challenge').html(generateChallengeData(data));
+	})
 };
 
 var clickOnPass = function(){
@@ -152,9 +169,11 @@ var clickForBluff = function(){
 		$.get('getStatus',function(data){
 			var card = JSON.parse(data);
 			$('#playerHand').html(generateHandCard(data));
+			
 		});
 		playedCardIds = [];
 	});
+	
 }
 
 var getHandCard = function(){

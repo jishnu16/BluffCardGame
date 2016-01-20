@@ -273,8 +273,8 @@ describe('Game',function(){
 	})
 	describe('getCardStatus',function(){
 		it('should return how many cards left other players hand',function(){
-			game.players = [{name:'hari',hand:[{},{},{},{},{}]},{name:'mathur',hand:[{},{},{}]},{name:'raghu',hand:[{},{},{}]}];
-			var expected = [{name:'mathur',noOfCards:3},{name:'raghu',noOfCards:3},{name:'hari',noOfCards:5}];
+			game.players = [{name:'hari',hand:[{},{},{},{},{}],isturn:true},{name:'mathur',hand:[{},{},{}],isturn:false},{name:'raghu',hand:[{},{},{}],isturn:false}];
+			var expected = [{name:'mathur',noOfCards:3,isturn:false},{name:'raghu',noOfCards:3,isturn:false},{name:'hari',noOfCards:5,isturn:true}];
 			assert.deepEqual(expected,game.getCardStatus('mathur'));
 		})
 	})
@@ -317,6 +317,7 @@ describe('Game',function(){
 			game.checkRoundCards = sinon.stub().returns(true);
 			game.findRequestPlayer = sinon.spy();
 			game.takeRoundCards = sinon.spy();
+			game.getLastPlayedPlayer = sinon.stub().returns({name:'ramu'});
 			
 			game.decideBluff();
 

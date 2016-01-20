@@ -61,6 +61,12 @@ app.get('/getCardStatus',function(req,res){
 	var cardStatus = req.game.getCardStatus(requestedPlayerName);
 	res.send(JSON.stringify(cardStatus));
 })
+
+app.get('/getChallengeStatus',function(req,res){
+	var requestedPlayerName = req.cookies.name;
+	var challengeStatus = req.game.bluffStatus();
+	res.send(JSON.stringify(challengeStatus));
+})
 app.post('/pass',function(req,res){
 	var player = req.cookies.name;
 	req.game.changeTurnAfterPass(player);
@@ -74,8 +80,7 @@ app.post('/playCard',function(req,res){
 })
 app.post('/bluff',function(req,res){
 	var challengerName = req.cookies.name;
-	req.game.decideBluff(challengerName);
-	res.end();
+	res.send(JSON.stringify(req.game.decideBluff(challengerName)));
 })	
 app.post('/setNamedCard',function(req,res){
 	var requestedPlayerName = req.cookies.name;
