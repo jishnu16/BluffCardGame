@@ -126,6 +126,16 @@ describe('Game',function(){
 			assert.deepEqual(expected,game.players)
 		})
 	})
+	describe('changeTurnAfterBluff',function(){
+		it('should set winner turn to trun and loser turn to false',function(){
+			var winner = {isturn:false};
+			var loser = {isturn:true};
+			game.changeTurnAfterBluff(winner,loser);
+			console.log(winner)
+			assert.ok(winner.isturn);
+			assert.notOk(loser.isturn);
+		});
+	})
 	describe('isNewRound',function(){
 		it('should return true when action log is empty',function(){
 			game.actionLog = [];
@@ -327,7 +337,9 @@ describe('Game',function(){
 		it('should decide result of chalange when last played player played right cards',function(){
 			game.canBluff = sinon.stub().returns(true);
 			game.checkRoundCards = sinon.stub().returns(true);
-			game.findRequestPlayer = sinon.spy();
+			game.findRequestPlayer = sinon.stub();
+			game.findRequestPlayer.onCall(0).returns({isturn:false});
+    		game.findRequestPlayer.onCall(1).returns({isturn:true});
 			game.takeRoundCards = sinon.spy();
 			game.getLastPlayedPlayer = sinon.stub().returns({name:'ramu'});
 			
