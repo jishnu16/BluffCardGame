@@ -113,6 +113,18 @@ describe('Game',function(){
 			game.changePlayerTurn();
 			assert.deepEqual(expected,game.players)
 		})
+		it('should change the turn second player to third player',function(){
+			game.players = [{isturn:false},{isturn:true},{isturn:false}]
+			var expected = [{isturn:false},{isturn:false},{isturn:true}]
+			game.changePlayerTurn();
+			assert.deepEqual(expected,game.players)
+		})
+		it('should change the turn third player to first player',function(){
+			game.players = [{isturn:false},{isturn:false},{isturn:true}]
+			var expected = [{isturn:true},{isturn:false},{isturn:false}]
+			game.changePlayerTurn();
+			assert.deepEqual(expected,game.players)
+		})
 	})
 	describe('isNewRound',function(){
 		it('should return true when action log is empty',function(){
