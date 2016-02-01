@@ -1,5 +1,6 @@
 .table {
-	left: 10px;
+		margin-right: auto;
+		margin-left: auto;
     position: relative;
     width: 1640px;
     height: 800px;
@@ -45,7 +46,9 @@
     right: 10px;
     width: 200px;
     height: 200px;
-    border: 3px solid #F2C78F;
+    /*border: 3px solid #F2C78F;*/
+		color: #3d4180;
+		border-radius: 10px;
 }
 .opponent2 {
 	position: absolute;
@@ -55,7 +58,9 @@
     left: 10px;
     width: 200px;
     height: 200px;
-    border: 3px solid #F2C78F;
+    /*border: 3px solid #F2C78F;*/
+		border-radius: 10px;
+		color: #3d4180;
 }
 
 .ownPlayer {
@@ -65,7 +70,9 @@
     left: 691px;
     width: 244px;
     height: 60px;
-    border: 3px solid #F2C78F;
+    /*border: 3px solid #F2C78F;*/
+		color: #3d4180;
+		border-radius: 10px;
 }
 
 .playerButton{
@@ -99,21 +106,31 @@
     height: 120px;
     width: 65;
     border: 2px solid black;
+		border-radius: 10px;
 }
 .diamonds {
     height: 120px;
     width: 65;
-    border: 2px solid red;
+		border-radius: 10px;
+    border: 2px solid black;
 }
 .clubs {
     height: 120px;
     width: 65;
+		border-radius: 10px;
     border: 2px solid black;
 }
 .hearts {
     height: 120px;
     width: 65;
-    border: 2px solid red;
+		border-radius: 10px;
+    border: 2px solid black;
+}
+div{
+	font-family: sans-serif;
+}
+.suit{
+	text-align: center;
 }
 #logTable{
     text-align: center;
