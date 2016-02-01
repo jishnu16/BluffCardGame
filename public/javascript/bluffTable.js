@@ -21,8 +21,8 @@ var generateHandCard = function(cards){
 	return handedCards.map(function(singleCard){
 		var rank = singleCard.name.toString()[0].toUpperCase();
 		var suit = singleCard.suit;
-		return '<td id ="'+singleCard.id + '"class = "playerCard"'+'><div class="'+suit+'">'
-		+ rank+'</br>'+unicodeOfCards(suit)+'</div></td>';
+		return '<div id ="'+singleCard.id + '"class = "playerCard">'
+		+ '<div id = "rank">'+rank+'</div>' +unicodeOfCards(suit)+'</div>';
 	});
 }
 
@@ -72,7 +72,7 @@ var getCardStatus = function(playerName){
 }
 var changeTurnColour = function(player){
 	return (player.isturn == true) ?
-		$('.'+player.div).css({"background-color":"#b5e685"}) : $('.'+player.div).css({"background-color":"#c2c5f1"});
+		$('.'+player.div).css({"background-color":"#e1f2cf"}) : $('.'+player.div).css({"background-color":"#e1e2f2"});
 }
 var giveButtonDisable = function(){
 	$('#playCard').prop('disabled', true);
@@ -99,7 +99,7 @@ var giveButtonAble = function(isNewRound){
 }
 
 var clickOnCards = function(){
-	$('#playerHand').on('click','td',function(){
+	$('#playerHand').on('click','div',function(){
 		var card = $(this).attr('id');
 		this.style.backgroundColor = "#C0C0C0";
 		playedCardIds.push(card);
@@ -189,7 +189,7 @@ var getHandCard = function(){
 };
 
 var onLoading = function(){
-	// var Interval = setInterval(getGameStatus,1000);
+	var Interval = setInterval(getGameStatus,1000);
 	getHandCard();
 	clickOnPass();
 	clickToSelectNamedCard();
