@@ -6,20 +6,23 @@ var getHandCardStatus = function(){
 	});
 }
 
-var unicodeRepresentationOfCards = function(suit){
+var unicodeOfCards = function(suit){
+	var span = '<span class = "suit"';
 	switch(suit){
-		case 'hearts': return '<span style="color:red">♥</span>';
-		case 'spades': return '♠';
-		case 'diamonds': return '<span style="color:red">♦</span>';
-		case 'clubs': return '♣';
+		case 'hearts': return span+'style="color:red">♥</span>';
+		case 'spades': return span+'>♠</span>';
+		case 'diamonds': return span+'style="color:red">♦</span>';
+		case 'clubs': return span+'>♣</span>';
 	}
 };
 
 var generateHandCard = function(cards){
 	var handedCards = JSON.parse(cards);
 	return handedCards.map(function(singleCard){
-		return '<td id ="'+singleCard.id + '"class = "playerCard"'+'><div class="'+singleCard.suit+'">'
-		+ singleCard.name+'</br>'+unicodeRepresentationOfCards(singleCard.suit)+'</div></td>';
+		var rank = singleCard.name.toString()[0].toUpperCase();
+		var suit = singleCard.suit;
+		return '<div id ="'+singleCard.id + '"class = "playerCard">'
+		+ '<div id = "rank">'+rank+'</div>' +unicodeOfCards(suit)+'</div>';
 	});
 }
 
@@ -27,7 +30,7 @@ var generateLogTableData = function(data){
 	var tableData = JSON.parse(data);
 	return tableData.map(function(singleData){
 		if(singleData.action == 'played'){
-			return '<tr><td>'+'<b>'+singleData.name+'</b>'+'  played  '
+			return '<tr><td id="playingStatus">'+singleData.name+'  played  '
 			+singleData.cards.length+'  cards</td></tr>';
 		}
 		if(singleData.action == 'pass'){
@@ -54,20 +57,23 @@ var getCardStatus = function(playerName){
 	$.get('getCardStatus',function(data){
 		var status = JSON.parse(data);
 		var opponent1 = status[1];
+		opponent1.div = "opponent1";
 		var opponent2 = status[2];
+		opponent2.div = "opponent2";
 		var ownPlayer = status[0];
+		ownPlayer.div = "ownPlayer";
 		$('.opponent1').html('<h3>'+ opponent1.name + '</br>' + opponent1.noOfCards+'   cards');
 		$('.opponent2').html('<h3>'+ opponent2.name + '</br>' + opponent2.noOfCards+'   cards');
 		$('.ownPlayer').html('<h3>'+ ownPlayer.name +"   "+ ownPlayer.noOfCards+'   cards');
-		if(opponent1.isturn==true){ $('.opponent1').css({"background-color":"red"})};
-	    if(opponent2.isturn==true){ $('.opponent2').css({"background-color":"red"})};
-	    if(ownPlayer.isturn== true){$('.ownPlayer').css({"background-color":"red"})};
-	    if(opponent1.isturn==false){ $('.opponent1').css({"background-color":"green"})};
-	    if(opponent2.isturn==false){ $('.opponent2').css({"background-color":"green"})};
-	    if(ownPlayer.isturn == false){$('.ownPlayer').css({"background-color":"green"})};
+		changeTurnColour(opponent1);
+		changeTurnColour(opponent2);
+		changeTurnColour(ownPlayer);
 	})
 }
-
+var changeTurnColour = function(player){
+	return (player.isturn == true) ?
+		$('.'+player.div).css({"background-color":"#e1f2cf"}) : $('.'+player.div).css({"background-color":"#edeef5"});
+}
 var giveButtonDisable = function(){
 	$('#playCard').prop('disabled', true);
 	$('#pass').prop('disabled', true);
@@ -87,13 +93,13 @@ var giveButtonAble = function(isNewRound){
 	}
 	else{
 		$('#pass').prop('disabled', false);
-	    $('#playCard').prop('disabled', false);
-	    $('#bluff').prop('disabled',false);
+    $('#playCard').prop('disabled', false);
+    $('#bluff').prop('disabled',false);
 	}
 }
 
 var clickOnCards = function(){
-	$('#playerHand').on('click','td',function(){
+	$('#playerHand').on('click','div',function(){
 		var card = $(this).attr('id');
 		this.style.backgroundColor = "#C0C0C0";
 		playedCardIds.push(card);
@@ -127,7 +133,7 @@ var getGameStatus = function(){
 		else
 			$('#namedCard').html(namedCard);
 	})
-	
+
 	$.get('tableData',function(data){
 		$('#logTable').html(generateLogTableData(data));
 	});
@@ -138,8 +144,8 @@ var getGameStatus = function(){
 
 var clickOnPass = function(){
 	$('#pass').click(function(){
-		$.post('pass');	
-		playedCardIds = [];	
+		$.post('pass');
+		playedCardIds = [];
 	});
 }
 
@@ -154,7 +160,7 @@ var clickToSelectNamedCard = function(){
 var clickToPlayCards = function(){
 	$('#playCard').click(function(){
 		var table = {cards:playedCardIds};
-		$.post('playCard',table);		
+		$.post('playCard',table);
 		$.get('getStatus',function(data){
 			var card = JSON.parse(data);
 			$('#playerHand').html(generateHandCard(data));
@@ -169,11 +175,11 @@ var clickForBluff = function(){
 		$.get('getStatus',function(data){
 			var card = JSON.parse(data);
 			$('#playerHand').html(generateHandCard(data));
-			
+
 		});
 		playedCardIds = [];
 	});
-	
+
 }
 
 var getHandCard = function(){

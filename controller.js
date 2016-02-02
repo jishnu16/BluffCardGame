@@ -40,19 +40,19 @@ app.get('/handCards',function(req,res){
 app.get('/tableData',function(req,res){
 	var requestedPlayerName = req.cookies.cookieName.name;
 	if(req.game.isPlayer(requestedPlayerName))
-		res.send(JSON.stringify(req.game.actionLog));   
+		res.send(JSON.stringify(req.game.actionLog));
 })
 app.get('/result',function(req,res){
-	var id = req.cookies.cookieName.gameId;
-	var intervel = setTimeout(req.games.romeveGame(id),5000);
+	// var id = req.cookies.cookieName.gameId;
+	// var intervel = setTimeout(req.games.romeveGame(id),5000);
 	res.send(JSON.stringify(req.game.getPlayerHandCardsLength()));
 })
 var serveGameStatus = function(req,res){
-	var requestedPlayerName = req.cookies.cookieName.name;	
+	var requestedPlayerName = req.cookies.cookieName.name;
 	try{
 		var requestedPlayer = req.game.findRequestPlayer(requestedPlayerName);
 		var currentPlayer = req.game.getCurrentPlayer();
-		var gameStatus = { 
+		var gameStatus = {
 			isTurn:requestedPlayer.isturn ,
 			name:currentPlayer.name ,
 			isNewRound:req.game.isNewRound(),
@@ -94,7 +94,7 @@ app.post('/bluff',function(req,res){
 	var challengerName = req.cookies.cookieName.name;
 	req.game.decideBluff(challengerName);
 	res.end();
-})	
+})
 app.post('/setNamedCard',function(req,res){
 	var requestedPlayerName = req.cookies.cookieName.name;
 	if(req.game.isPlayer(requestedPlayerName) && req.game.isNewRound()){

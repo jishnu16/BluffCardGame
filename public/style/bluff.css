@@ -1,21 +1,32 @@
+body{
+	font-family: sans-serif;
+}
 .table {
-	left: 10px;
+		margin-right: auto;
+		margin-left: auto;
     position: relative;
     width: 1640px;
     height: 800px;
-    border: 3px solid #F2C78F;
+		/*background-color: #eff5f6;*/
+    /*border: 3px solid #F2C78F;*/
 }
-
+h1{
+	top: auto;
+	text-align: center;
+	font-family: sans-serif;
+}
 .round {
     text-align: center;
     position: absolute;
     padding-top: 10px;
-    padding-left:10px;
+    padding-left: 10px;
     top: 10px;
     right: 10px;
     width: 200px;
     height: 100px;
-    border: 3px solid #F2C78F;
+    background-color: #F6F5ED;
+    border-radius: 10px;
+    font-weight: bold;
 }
 .player {
     position: absolute;
@@ -23,19 +34,22 @@
     bottom: 105px;
     right: 65px;
     width: 1500px;
-    height: 130px;
+    height: 213px;
     border: 3px solid #F2C78F;
 }
 .status {
+    font-weight: bold;
     position: absolute;
     padding-top: 10px;
     text-align: center;
-    overflow:scroll;
-    top: 62px;
+    overflow: scroll;
+    top: 32px;
     right: 620px;
     width: 400px;
-    height: 200px;
-    border: 3px solid #F2C78F;
+    height: 245px;
+    border-radius: 10px;
+    background-color: #F6F5ED;
+    line-height: 1.5em;
 }
 .opponent1 {
 	position: absolute;
@@ -45,7 +59,8 @@
     right: 10px;
     width: 200px;
     height: 200px;
-    border: 3px solid #F2C78F;
+		color: #3d4180;
+		border-radius: 10px;
 }
 .opponent2 {
 	position: absolute;
@@ -55,7 +70,8 @@
     left: 10px;
     width: 200px;
     height: 200px;
-    border: 3px solid #F2C78F;
+		border-radius: 10px;
+		color: #3d4180;
 }
 
 .ownPlayer {
@@ -65,62 +81,107 @@
     left: 691px;
     width: 244px;
     height: 60px;
-    border: 3px solid #F2C78F;
+		/*color: #3d4180;*/
+		border-radius: 10px;
 }
 
-.playerButton{
+.playerButton {
     position: absolute;
     padding-top: 10px;
-    top: 500px;
+    top: 382px;
     right: 493px;
-    width: 500px;
+    width: 600px;
     height: 40px;
 }
 .playerTurn {
     position: absolute;
-    padding-top: 10px;
-    padding-left:10px;
-    top: 350px;
-    right: 640px;
-    width: 350px;
-    height: 25px;
-    border: 3px solid #F2C78F;
-}
-.turnName{
     font-weight: bold;
-    position: absolute;
     padding-top: 10px;
+    padding-left: 10px;
+    top: 10px;
+    left: 10px;
+		width: 200px;
+    height: 100px;
+    border-radius: 10px;
+    font-size: 20px;
+		background-color: #F6F5ED;
+		text-align: center;
+}
+.turnName {
+    font-size: 31px;
+    font-weight: initial;
+    position: absolute;
+    padding-top: 48px;
     top: 0px;
-    left: 150px;
-    width: 100px;
-    height: 25px;
+    left: 43px;
+    width: 131px;
+    height: 57px;
 }
-.spades {
-    height: 120px;
-    width: 65;
-    border: 2px solid black;
+.playerCard{
+	height: 160;
+	width: 100px;
+	border-radius: 10px;
+	border: 2px solid black;
+	margin: 5px 3px 5px 3px;
+	float: left;
 }
-.diamonds {
-    height: 120px;
-    width: 65;
-    border: 2px solid red;
+.suit {
+    padding-top: 13px;
+    padding-bottom: 21px;
+    padding-left: 33px;
+    font-size: 54px;
 }
-.clubs {
-    height: 120px;
-    width: 65;
-    border: 2px solid black;
+#rank {
+    width: 25px;
+    position: relative;
+    font-size: 24px;
+    padding: 5px 7px 25px;
 }
-.hearts {
-    height: 120px;
-    width: 65;
-    border: 2px solid red;
+#playerHand {
+    position: absolute;
+    overflow-y: scroll;
+    bottom: 105px;
+    right: 112px;
+    width: 1412px;
+    height: 195px;
+    /*border: 3px solid #F2C78F;*/
 }
 #logTable{
     text-align: center;
+		padding-bottom: 10px;
     padding-top: 10px;
-    padding-bottom: 10px;
     right: 25px;*/
     height:100%;
     width: 100%;
-
+}
+button {
+    width: 141px;
+    height: 51px;
+    font-size: medium;
+    font-weight: bold;
+    /*background-color: blanchedalmond;*/
+    border-radius: 5px;
+}
+select{
+	width: 141px;
+	height: 51px;
+	font-size: medium;
+	font-weight: bold;
+	border-radius: 5px;
+}
+h3#namedCard{
+	font-size: 20px;
+}
+#challenge{
+	font-size: 20px;
+}
+#playingStatus{
+	font-size: 20px;
+	font-weight: bold;
+}
+b{
+	font-size: 20px;
+}
+h1{
+	35px;
 }
