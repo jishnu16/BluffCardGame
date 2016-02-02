@@ -30,7 +30,7 @@ var generateLogTableData = function(data){
 	var tableData = JSON.parse(data);
 	return tableData.map(function(singleData){
 		if(singleData.action == 'played'){
-			return '<tr><td>'+'<b>'+singleData.name+'</b>'+'  played  '
+			return '<tr><td id="playingStatus">'+singleData.name+'  played  '
 			+singleData.cards.length+'  cards</td></tr>';
 		}
 		if(singleData.action == 'pass'){
@@ -72,7 +72,7 @@ var getCardStatus = function(playerName){
 }
 var changeTurnColour = function(player){
 	return (player.isturn == true) ?
-		$('.'+player.div).css({"background-color":"#e1f2cf"}) : $('.'+player.div).css({"background-color":"#e1e2f2"});
+		$('.'+player.div).css({"background-color":"#e1f2cf"}) : $('.'+player.div).css({"background-color":"#edeef5"});
 }
 var giveButtonDisable = function(){
 	$('#playCard').prop('disabled', true);
