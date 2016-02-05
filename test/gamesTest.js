@@ -19,24 +19,20 @@ describe('Games',function(){
 		it('should give game when no game in Games',function(){
 			var req = {};
 			req.cookies = {};
-			req.cookies.cookieName = {};
-			req.cookies.cookieName.gameId ='1';
-			games.games = [];
-			games.startNewGame();
-			var game = games.loadGame(req);
-			assert.equal(game.hasVacancy(),true);
-			assert.equal(game.players.length,0);
-			assert.equal(game.id,1);
-		});
-		it('should give game when no game in Games',function(){
-			var req = {};
-			req.cookies = {};
 			games.games = [];
 			games.createGame();
 			var game = games.loadGame(req);
 			assert.equal(game.hasVacancy(),true);
 			assert.equal(game.players.length,0);
-			assert.equal(game.id,1);
+			assert.ok(game.id);
+		});
+	})
+	describe('findGame',function(){
+		it('should find the requested id\'s game',function(){
+			games.games = [{id:1234}];
+			var game = games.findGame(1234);
+			assert.deepEqual(game,{id:1234})
+			
 		});
 	})
 	describe('startNewGame',function(){

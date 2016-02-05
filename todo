@@ -1,24 +1,25 @@
 multi game//done//
-same name two player not abel to playing
+after bluff who win the challenge new round will from that player; //done//
 challenge result show to player massege.//done//
 colour notification for turn //done//
+games have a method loadGame that return a single game in which the requested player belong;//done//
+if a new plaer request who doesn't belong in any game then if game has vacency then that game will be load other wise a new game will be created ; //done//
+make a games constructor who holds the games //done
+set game id in cookie so that we can know in which game the player belong;//done//
+user manual; // done //
 
 =========================================
-give each game a unique id; done//
-set game id in cookie so that we can know in which game the player belong;//done//
-make a games constructor who holds the games //done
-games have a method loadGame that return a single game in which the requested player belong;//done//
-if a new plaer request who doesn't belong in any game then if game has vacency then that game will be load other wise a new game will be created ;
-user manual;
+give each game a unique id; done//  but need to modified.because when a game will deleted then it will not work.// modified with chance.js
 ====================
-after bluff who win the challenge new round wiull from that player;
 
 logout option;
 clear cookie;
 
-=========================================
-some problem after hosting the game
 previous created game are always in server need to delete finished games -- if no request coming after a certen time then game should deleted. 
+
 some time jquary are not warking properly ...turn is not changeing properly
+=========================================
+same name two player not abel to playing
+some problem after hosting the game
 any player can say bluff if that his turn or not.
 

@@ -11,7 +11,6 @@ app.use(function(req,res,next){
 	req.game = games.loadGame(req);
 	next();
 })
-
 app.get('/update',function(req,res){
 	res.send(JSON.stringify({isStarted : req.game.isGameStarted()}));
 })
@@ -29,6 +28,12 @@ app.get('/getStatus',function(req,res){
 	if(req.game.isPlayer(requestedPlayerName))
 		serveCards(req,res);
 })
+
+app.get('/logout',function(req,res){
+	res.clearCookie('cookieName');
+	res.end();
+})
+
 app.get('/handCards',function(req,res){
 	serveCards(req,res);
 })
@@ -38,7 +43,8 @@ app.get('/tableData',function(req,res){
 		res.send(JSON.stringify(req.game.actionLog));
 })
 app.get('/result',function(req,res){
-	// res.clearCookie('cookieName');
+	// var id = req.cookies.cookieName.gameId;
+	// var intervel = setTimeout(req.games.romeveGame(id),5000);
 	res.send(JSON.stringify(req.game.getPlayerHandCardsLength()));
 })
 var serveGameStatus = function(req,res){
