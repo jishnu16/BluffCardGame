@@ -20,8 +20,8 @@ h1{
     position: absolute;
     padding-top: 10px;
     padding-left: 10px;
-    top: 10px;
-    right: 10px;
+    top: 4%;
+    right: 25%;
     width: 200px;
     height: 100px;
     background-color: #F6F5ED;
@@ -30,12 +30,14 @@ h1{
 }
 .player {
     position: absolute;
-    overflow-x: scroll;
-    bottom: 105px;
-    right: 65px;
-    width: 1500px;
-    height: 213px;
+    top: 37%;
+    /* overflow-x: scroll; */
+    /* bottom: 105px; */
+    /* right: 65px; */
+    width: 100%;
+    height: 30%;
     border: 3px solid #F2C78F;
+    /* left: 50%; */
 }
 .status {
     font-weight: bold;
@@ -75,37 +77,44 @@ h1{
 }
 
 .ownPlayer {
-    position: absolute;
+	/*padding-top: 10px;*/
+
+    /* position: absolute; */
     text-align: center;
-    bottom: 14px;
-    left: 691px;
-    width: 244px;
-    height: 60px;
-		/*color: #3d4180;*/
-		border-radius: 10px;
+    /* bottom: 14px; */
+    /* left: 691px; */
+    width: 20%;
+    height: 20%;
+    /* color: #3d4180; */
+    border-radius: 10px;
+    display: inline-block;
 }
 
 .playerButton {
-    position: absolute;
-    padding-top: 10px;
-    top: 382px;
-    right: 493px;
-    width: 600px;
-    height: 40px;
+    /* position: absolute; */
+    /*padding-top: 10px;*/
+    /* top: 382px; */
+    /* right: 493px; */
+    width: 39%;
+    height: 20%;
+    text-align: center;
+    /*background-color: yellowgreen;*/
+    /* padding-left: 100; */
+    display: inline-block;
 }
 .playerTurn {
     position: absolute;
     font-weight: bold;
-    padding-top: 10px;
-    padding-left: 10px;
-    top: 10px;
-    left: 10px;
-		width: 200px;
+    /* padding-top: 10px; */
+    /* padding-left: 10px; */
+    top: 4%;
+    left: 25%;
+    width: 200px;
     height: 100px;
     border-radius: 10px;
     font-size: 20px;
-		background-color: #F6F5ED;
-		text-align: center;
+    background-color: #F6F5ED;
+    text-align: center;
 }
 .turnName {
     font-size: 31px;
@@ -138,13 +147,13 @@ h1{
     padding: 5px 7px 25px;
 }
 #playerHand {
-    position: absolute;
+    /* position: absolute; */
     overflow-y: scroll;
     bottom: 105px;
-    right: 112px;
-    width: 1412px;
-    height: 195px;
-    /*border: 3px solid #F2C78F;*/
+    /* right: 112px; */
+    width: 100%;
+    height: 74%;
+    border: 3px solid #F2C78F;
 }
 #logTable{
     text-align: center;
@@ -154,14 +163,14 @@ h1{
     height:100%;
     width: 100%;
 }
-button {
+/*button {
     width: 141px;
     height: 51px;
     font-size: medium;
     font-weight: bold;
-    /*background-color: blanchedalmond;*/
+    background-color: blanchedalmond;
     border-radius: 5px;
-}
+}*/
 select{
 	width: 141px;
 	height: 51px;

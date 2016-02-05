@@ -14,21 +14,12 @@
 			<div class="round"><b>Round Card</b>
 				<h3 id="namedCard"></h3>
 			</div>
-					<div id="playerHand"></div>
-			<div class="status"><b>GAME STATUS</b>
-				<hr>
-				<table id = 'logTable'></table>
-				<h4 id = 'challenge'></h4>
-			</div>
-			<div class="opponent1">Opponent 1
-			</div>
-			<div class="opponent2">Opponent 2</div>
-			<div class="ownPlayer">ownPlayer</div>
-			<div class="playerTurn">Player Turn
-				<div class="turnName"></div>
-			</div>
-			<div class="playerButton">
-				<div id="cardsName">
+			<div class="player">
+
+				<div id="playerHand"></div>
+				<div class="ownPlayer">ownPlayer</div>
+				<div class="playerButton">
+					<!-- <div id="cardsName"> -->
 					<select id="listOfcardName">
 						<option value="ace">Ace</option>
 						<option value="king">King</option>
@@ -44,10 +35,22 @@
 						<option value=3>3</option>
 						<option value=2>2</option>
 					</select>
-					<button type="button" id="playCard">Click To Play</button>
-					<button type="button" id="pass">Click To Pass</button>
+					<button type="button" id="playCard">Play</button>
+					<button type="button" id="pass">Pass</button>
 					<button type="button" id="bluff">Catch Bluff</button>
+					<!-- </div> -->
 				</div>
+			</div>
+			<div class="status"><b>GAME STATUS</b>
+				<hr>
+				<table id = 'logTable'></table>
+				<h4 id = 'challenge'></h4>
+			</div>
+			<div class="opponent1">Opponent 1
+			</div>
+			<div class="opponent2">Opponent 2</div>
+			<div class="playerTurn">Player Turn
+				<div class="turnName"></div>
 			</div>
 		</div>
 	</body>
