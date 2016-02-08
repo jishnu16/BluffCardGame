@@ -20,21 +20,23 @@ h1{
     position: absolute;
     padding-top: 10px;
     padding-left: 10px;
-    top: 122px;
-    /* left: 128px; */
+    top: 275px;
+    margin: auto;
+    left: 705px;
     width: 200px;
     height: 109px;
     background-color: #F6F5ED;
     /* border-radius: 10px; */
+    border-right: 1px solid black;
 }
 .player {
     position: absolute;
-    top: 37%;
+    top: 50%;
     /* overflow-x: scroll; */
     /* bottom: 105px; */
     /* right: 65px; */
     width: 100%;
-    height: 60%;
+    height: 39%;
     border: 3px solid #F2C78F;
     /* left: 50%; */
     text-align: center;
@@ -46,7 +48,7 @@ h1{
     text-align: center;
     overflow: scroll;
     width: 400px;
-    height: 245px;
+    height: 100px;
     border-radius: 10px;
     background-color: #F6F5ED;
     line-height: 1.5em;
@@ -82,12 +84,12 @@ h1{
     /* bottom: 14px; */
     /* left: 691px; */
     width: 20%;
-    height: 20%;
+    /* height: 20%; */
     /* color: #3d4180; */
     border-radius: 10px;
     /* display: inline-block; */
     margin-top: 23px;
-    margin-left: 284px;
+    margin-left: 250px;
 }
 .gameStatus {
     margin: 1px solid black;
@@ -124,6 +126,8 @@ h1{
     font-size: 16px;
     background-color: #F6F5ED;
     text-align: center;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
 }
 .turnName {
     font-weight: 34;
@@ -151,17 +155,17 @@ h1{
 }
 #rank {
     width: 25px;
-    position: relative;
+    /*position: relative;*/
     font-size: 24px;
     padding: 5px 7px 25px;
 }
 #playerHand {
-    /* position: absolute; */
-    overflow-y: scroll;
-    bottom: 105px;
+    position: absolute;
+    overflow-x: scroll;
+    bottom: 0px;
     /* right: 112px; */
     width: 100%;
-    /*height: 74%;*/
+    /* height: 74%; */
     border: 3px solid #F2C78F;
 }
 #logTable{
@@ -192,7 +196,7 @@ select{
     margin-top: 10px;
 }
 #challenge{
-	font-size: 20px;
+	font-size: 16px;
 }
 #playingStatus{
 	font-size: 15px;
@@ -203,4 +207,7 @@ b{
 }
 h1{
 	35px;
+}
+.status ::-webkit-scorlbar{
+    display:none;
 }

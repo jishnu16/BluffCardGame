@@ -28,16 +28,15 @@ var generateHandCard = function(cards){
 
 var generateLogTableData = function(data){
 	var tableData = JSON.parse(data);
-	return tableData.map(function(singleData){
-		if(singleData.action == 'played'){
-			return '<tr><td id="playingStatus">'+singleData.name+'  played  '
-			+singleData.cards.length+'  cards</td></tr>';
+	console.log(tableData);
+	var lastElement = tableData[tableData.length-1];
+		 if(lastElement.action == 'played'){
+			$('#logTable').html('<div id="playingStatus">'+lastElement.name+'  played  '
+			+lastElement.cards.length+'  cards</div>');
 		}
-		if(singleData.action == 'pass'){
-			return '<tr><td>'+singleData.name+' say passed </td></tr>';
-		}
-
-	});
+		if(lastElement.action == 'pass')
+			$('#passing').html(lastElement.name+' say passed');
+		
 }
 
 var generateChallengeData = function(data){
@@ -135,7 +134,8 @@ var getGameStatus = function(){
 	})
 
 	$.get('tableData',function(data){
-		$('#logTable').html(generateLogTableData(data));
+		// $('#logTable').html(generateLogTableData(data));
+		generateLogTableData(data);
 	});
 	$.get('getChallengeStatus',function(data){
 		$('#challenge').html(generateChallengeData(data));
