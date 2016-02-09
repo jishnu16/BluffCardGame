@@ -19,7 +19,7 @@ var unicodeOfCards = function(suit){
 var generateHandCard = function(cards){
 	var handedCards = JSON.parse(cards);
 	return handedCards.map(function(singleCard){
-		var rank = singleCard.name.toString()[0].toUpperCase();
+		var rank = singleCard.name;
 		var suit = singleCard.suit;
 		return '<div id ="'+singleCard.id + '"class = "playerCard">'
 		+ '<div id = "rank">'+rank+'</div>' +unicodeOfCards(suit)+'</div>';
@@ -28,13 +28,12 @@ var generateHandCard = function(cards){
 
 var generateLogTableData = function(data){
 	var tableData = JSON.parse(data);
-	console.log(tableData);
 	var lastElement = tableData[tableData.length-1];
-		 if(lastElement.action == 'played'){
-			$('#logTable').html('<div id="playingStatus">'+lastElement.name+'  played  '
-			+lastElement.cards.length+'  cards</div>');
+		 if(lastElement && lastElement.action == 'played'){
+			$('#playedStatus').html(lastElement.name+'  played  '+lastElement.cards.length+'  cards');
+			$('#passing').html('');
 		}
-		if(lastElement.action == 'pass')
+		if(lastElement && lastElement.action == 'pass')
 			$('#passing').html(lastElement.name+' say passed');
 		
 }
@@ -127,18 +126,21 @@ var getGameStatus = function(){
 			clickOnCards();
 		}
 		$('.turnName').html(JSON.parse(data).name);
-		if(isNewRound == true)
-			$('#namedCard').html("New round starting");
+		if(isNewRound == true){
+			$('#passing').html("New round starting");
+			$('#namedCard').html('');
+		}	
 		else
 			$('#namedCard').html(namedCard);
 	})
 
 	$.get('tableData',function(data){
-		// $('#logTable').html(generateLogTableData(data));
 		generateLogTableData(data);
 	});
 	$.get('getChallengeStatus',function(data){
-		$('#challenge').html(generateChallengeData(data));
+		var challengeData = generateChallengeData(data);
+		if(challengeData)
+			$('#playedStatus').html(challengeData);
 	})
 };
 

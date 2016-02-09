@@ -31,7 +31,7 @@ app.get('/getStatus',function(req,res){
 
 app.get('/logout',function(req,res){
 	res.clearCookie('cookieName');
-	res.end();
+	res.redirect('/');
 })
 
 app.get('/handCards',function(req,res){
@@ -43,8 +43,6 @@ app.get('/tableData',function(req,res){
 		res.send(JSON.stringify(req.game.actionLog));
 })
 app.get('/result',function(req,res){
-	// var id = req.cookies.cookieName.gameId;
-	// var intervel = setTimeout(req.games.romeveGame(id),5000);
 	res.send(JSON.stringify(req.game.getPlayerHandCardsLength()));
 })
 var serveGameStatus = function(req,res){
