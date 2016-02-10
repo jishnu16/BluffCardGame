@@ -58,26 +58,28 @@ h1{
 .opponent1 {
     background-image: url('../image/blank-face.jpg');
 	position: absolute;
-    line-height: 5.5em;
+    line-height: 365px;
     text-align: center;
-    top: 40px;
-    right: 150px;
+    top: 100px;
+    right: 200px;
     width: 200px;
     height: 200px;
-		color: #3d4180;
-		border-radius: 10px;
+	color: #3d4180;
+	border-radius: 10px;
+    font-weight: 600;
 }
 .opponent2 {
     background-image: url('../image/blank-face.jpg');
-	position: absolute;
-    line-height: 5.5em;
+    position: absolute;
+    line-height: 365px;
     text-align: center;
-    top: 40px;
-    left: 150px;
+    top: 100px;
+    left: 200px;
     width: 200px;
     height: 200px;
-		border-radius: 10px;
-		color: #3d4180;
+    border-radius: 10px;
+    color: #3d4180;
+    font-weight: 600;
 }
 
 .ownPlayer {
@@ -93,6 +95,7 @@ h1{
     /* display: inline-block; */
     margin-top: 30px;
     margin-left: 250px;
+    background-color:  #edeef5;
 }
 .gameStatus {
     margin: 1px solid black;
@@ -153,14 +156,17 @@ h1{
     /* padding-left: 33px; */
     font-size: 44px;
     float: left;
-    margin-top: -35px;
-    margin-left: 8px;
+    margin-top: 33px;
+    margin-left: -31px;
+    float: left;
+    position: relative;
 }
-#rank {
+.rank {
     width: 25px;
-    /*position: relative;*/
+    /* position: relative; */
     font-size: 24px;
     padding: 5px 7px 25px;
+    float: left;
 }
 #playerHand {
     position: absolute;
@@ -193,10 +199,10 @@ select{
 	border-radius: 5px;
 }
 #namedCard {
-    font-size: 130px;
-    margin-top: 10px;
+    font-size: 100px;
+    margin-top: 40px;
     font-weight: 100;
-    font-family: initial;
+    font-family: serif;
 }
 
 #playingStatus{

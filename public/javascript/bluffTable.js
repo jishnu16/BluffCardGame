@@ -22,7 +22,7 @@ var generateHandCard = function(cards){
 		var rank = singleCard.name;
 		var suit = singleCard.suit;
 		return '<div id ="'+singleCard.id + '"class = "playerCard">'
-		+ '<div id = "rank">'+rank+'</div>' +unicodeOfCards(suit)+'</div>';
+		+ '<span class = "rank">'+rank+'</span>' +unicodeOfCards(suit)+'</div>';
 	});
 }
 
@@ -60,8 +60,8 @@ var getCardStatus = function(playerName){
 		opponent2.div = "opponent2";
 		var ownPlayer = status[0];
 		ownPlayer.div = "ownPlayer";
-		$('.opponent1').html('<h3>'+ opponent1.name + '</br>' + opponent1.noOfCards+'   cards');
-		$('.opponent2').html('<h3>'+ opponent2.name + '</br>' + opponent2.noOfCards+'   cards');
+		$('.opponent1').html( opponent1.name +"	 "+opponent1.noOfCards+'   cards');
+		$('.opponent2').html( opponent2.name +"	 "+ opponent2.noOfCards+'   cards');
 		$('.ownPlayer').html('<h3>'+ ownPlayer.name +"   "+ ownPlayer.noOfCards+'   cards');
 		changeTurnColour(opponent1);
 		changeTurnColour(opponent2);
@@ -70,20 +70,22 @@ var getCardStatus = function(playerName){
 }
 var changeTurnColour = function(player){
 	return (player.isturn == true) ?
-		$('.'+player.div).css({"background-color":"#e1f2cf"}) : $('.'+player.div).css({"background-color":"#edeef5"});
+		$('.'+player.div).css({"box-shadow":"0px 0px 50px #30FF84"}) : $('.'+player.div).css({"background-color":"#edeef5","box-shadow":"0px 0px 50px white"});
 }
 var giveButtonDisable = function(){
 	$('#playCard').prop('disabled', true);
 	$('#pass').prop('disabled', true);
 	$('#playerHand').off('click');
-	$('#listOfcardName').prop('disabled',true);
+	$('#listOfcardName').css("visibility","hidden");
 	$('#selectNamedCard').prop('disabled',true);
 	$('#bluff').prop('disabled',true);
 }
 
-var giveButtonAble = function(isNewRound){
-	if(isNewRound == true){
-		$('#listOfcardName').prop('disabled',false);
+var giveButtonAble = function(isNewRound,turnMessage){
+	if(turnMessage && isNewRound){
+		$('#listOfcardName').css("visibility","visible");
+	}
+	else if(isNewRound){
 		$('#selectNamedCard').prop('disabled',false);
 		$('#pass').prop('disabled', true);
 		$('#playCard').prop('disabled',false);
@@ -91,8 +93,9 @@ var giveButtonAble = function(isNewRound){
 	}
 	else{
 		$('#pass').prop('disabled', false);
-    $('#playCard').prop('disabled', false);
-    $('#bluff').prop('disabled',false);
+	    $('#playCard').prop('disabled', false);
+	    $('#bluff').prop('disabled',false);
+	    $('#listOfcardName').css('visibility','hidden');
 	}
 }
 
@@ -102,6 +105,7 @@ var clickOnCards = function(){
 		this.style.backgroundColor = "#C0C0C0";
 		playedCardIds.push(card);
 		playedCardIds = uniqueElementArray(playedCardIds);
+		console.log(playedCardIds);
 	});
 }
 
@@ -122,7 +126,7 @@ var getGameStatus = function(){
 			getHandCardStatus();
 		}
 		if(turnMessage == true){
-			giveButtonAble(isNewRound);
+			giveButtonAble(isNewRound,turnMessage);
 			clickOnCards();
 		}
 		$('.turnName').html(JSON.parse(data).name);
@@ -173,6 +177,7 @@ var clickToPlayCards = function(){
 
 var clickForBluff = function(){
 	$('#bluff').click(function(){
+		console.log(playedCardIds);
 		$.post('bluff');
 		$.get('getStatus',function(data){
 			var card = JSON.parse(data);
