@@ -41,7 +41,7 @@ var generateLogTableData = function(data){
 var generateChallengeData = function(data){
 	var challengeStuatus = JSON.parse(data);
 	if(challengeStuatus.length>0)
-		return challengeStuatus[0]+ ' Challenge '+challengeStuatus[1]+' & '+ challengeStuatus[2]+' Loose the challenge';
+		return challengeStuatus[0]+ ' Challenged '+challengeStuatus[1]+' & '+ challengeStuatus[2]+' Lost';
 	return '';
 }
 

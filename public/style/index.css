@@ -38,7 +38,7 @@ h1 {
 }
 input[type=text] {
   font-family: sans-serif;
-  /*font-weight: bold;*/
+  font-weight: bold;
   font-size: 16px;
   margin-top: 35px;
   padding:10px;
