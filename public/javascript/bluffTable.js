@@ -6,23 +6,26 @@ var getHandCardStatus = function(){
 	});
 }
 
-var unicodeOfCards = function(suit){
-	var span = '<span class = "suit"';
+var unicodeOfCards = function(suit,rank){
+	var spanForSuit = '<span class = "suit"';
+	var spanForRank = '<span class = "rank"';
 	switch(suit){
-		case 'hearts': return span+'style="color:red">♥</span>';
-		case 'spades': return span+'>♠</span>';
-		case 'diamonds': return span+'style="color:red">♦</span>';
-		case 'clubs': return span+'>♣</span>';
+		case 'hearts':return spanForRank+ 'style="color:red">'+rank+'</span>'+spanForSuit+'style="color:red">♥</span>';
+		case 'spades':return spanForRank+'>' +rank+'</span>'+spanForSuit+'>♠</span>';
+		case 'diamonds':return spanForRank+ 'style="color:red">'+rank+'</span>'+spanForSuit+'style="color:red">♦</span>';
+		case 'clubs':return spanForRank+'>'+rank+'</span>'+spanForSuit+'>♥</span>';
 	}
 };
+
 
 var generateHandCard = function(cards){
 	var handedCards = JSON.parse(cards);
 	return handedCards.map(function(singleCard){
 		var rank = singleCard.name;
 		var suit = singleCard.suit;
+	console.log(unicodeOfCards(suit,rank));
 		return '<div id ="'+singleCard.id + '"class = "playerCard">'
-		+ '<span class = "rank">'+rank+'</span>' +unicodeOfCards(suit)+'</div>';
+		+ unicodeOfCards(suit,rank)+'</div>';
 	});
 }
 
@@ -61,8 +64,8 @@ var getCardStatus = function(playerName){
 		var ownPlayer = status[0];
 		ownPlayer.div = "ownPlayer";
 		$('.opponent1').html( opponent1.name +"	 "+opponent1.noOfCards+'   cards');
-		$('.opponent2').html( opponent2.name +"	 "+ opponent2.noOfCards+'   cards');
-		$('.ownPlayer').html('<h3>'+ ownPlayer.name +"   "+ ownPlayer.noOfCards+'   cards');
+		$('.opponent2').html( opponent2.name +"	   "+ opponent2.noOfCards+'   cards');
+		$('.ownPlayer').html(ownPlayer.name +"    "+ ownPlayer.noOfCards+' cards');
 		changeTurnColour(opponent1);
 		changeTurnColour(opponent2);
 		changeTurnColour(ownPlayer);
@@ -70,7 +73,7 @@ var getCardStatus = function(playerName){
 }
 var changeTurnColour = function(player){
 	return (player.isturn == true) ?
-		$('.'+player.div).css({"box-shadow":"0px 0px 50px #30FF84"}) : $('.'+player.div).css({"background-color":"#edeef5","box-shadow":"0px 0px 50px white"});
+		$('.'+player.div).css({"box-shadow":"5px 5px 15px #3F3F3F"}) : $('.'+player.div).css({"box-shadow":"none"});
 }
 var giveButtonDisable = function(){
 	$('#playCard').prop('disabled', true);

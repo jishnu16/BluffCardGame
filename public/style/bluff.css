@@ -1,5 +1,6 @@
 body{
 	font-family: sans-serif;
+    background-color: #c8c9e2;
 }
 .table {
 		margin-right: auto;
@@ -26,19 +27,19 @@ h1{
     width: 200px;
     height: 200px;
     /* background-color: #F6F5ED; */
-    border: 1px solid black;
+    /*border: 1px solid black;*/
     /* border-radius: 10px; */
     /* border-right: 1px solid black; */
 }
 .player {
     position: absolute;
-    top: 50%;
+    top: 45%;
     /* overflow-x: scroll; */
     /* bottom: 105px; */
     /* right: 65px; */
     width: 100%;
-    height: 39%;
-    border: 3px solid #F2C78F;
+    height: 35%;
+    /*border: 3px solid #F2C78F;*/
     /* left: 50%; */
     text-align: center;
 }
@@ -57,50 +58,55 @@ h1{
 }
 .opponent1 {
     background-image: url('../image/blank-face.jpg');
+    background-size: 100px 100px;
+
 	position: absolute;
     line-height: 365px;
     text-align: center;
     top: 100px;
     right: 200px;
-    width: 200px;
-    height: 200px;
-	color: #3d4180;
+    width: 100px;
+    height: 100px;
+	color: #484a90;
 	border-radius: 10px;
     font-weight: 600;
 }
 .opponent2 {
     background-image: url('../image/blank-face.jpg');
+    background-size: 100px 100px;
     position: absolute;
     line-height: 365px;
     text-align: center;
     top: 100px;
     left: 200px;
-    width: 200px;
-    height: 200px;
+    width: 100px;
+    height: 100px;
     border-radius: 10px;
-    color: #3d4180;
+    color: #484a90;
     font-weight: 600;
 }
 
 .ownPlayer {
-    /* padding-top: 10px; */
+    background-size: 100px 100px;
+
+    background-image: url('../image/blank-face.jpg');
     position: absolute;
+    line-height: 365px;
     text-align: center;
-    /* bottom: 14px; */
-    /* left: 691px; */
-    width: 20%;
-    /* height: 20%; */
-    /* color: #3d4180; */
+    bottom: 10px;
+    left: 703px;
+    width: 100px;
+    height: 100px;
     border-radius: 10px;
-    /* display: inline-block; */
-    margin-top: 30px;
-    margin-left: 250px;
-    background-color:  #edeef5;
+    color: #484a90;
+    font-weight: 600;
 }
+
+
 .gameStatus {
     margin: 1px solid black;
     position: relative;
-    border: 2px solid black;
+    /*border: 2px solid black;*/
     height: 123px;
     width: 610px;
     margin: auto;
@@ -117,7 +123,7 @@ h1{
     /* background-color: yellowgreen; */
     /* padding-left: 100; */
     display: inline-block;
-    margin-top: 30px;
+    margin-top: 27px;
     margin-left: 350px;
 }
 .playerTurn {
@@ -132,8 +138,8 @@ h1{
     font-size: 16px;
     background-color: #F6F5ED;
     text-align: center;
-    border-right: 1px solid black;
-    border-bottom: 1px solid black;
+    /*border-right: 1px solid black;*/
+    /*border-bottom: 1px solid black;*/
 }
 .turnName {
     font-weight: 34;
@@ -175,7 +181,7 @@ h1{
     /* right: 112px; */
     width: 100%;
     /* height: 74%; */
-    border: 3px solid #F2C78F;
+    /*border: 3px solid #F2C78F;*/
 }
 /*#logTable{
     text-align: center;
@@ -188,8 +194,10 @@ button {
     height: 51px;
     font-size: medium;
     font-weight: bold;
-    background-color: blanchedalmond;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.15);
+    background-color: #a6a7cf;
     border-radius: 5px;
+    border: none;
 }
 select{
 	width: 141px;
@@ -206,10 +214,10 @@ select{
     left: 705px;
     width: 200px;
     height: 152px;
-    border: 1px solid black;
+    /*border: 1px solid black;*/
     font-size: 120px;
-    font-weight: 100;
-    font-family: serif;
+    font-weight: 500;
+    font-family: "Helvetica", sans-serif;
 }
 
 #playingStatus{
@@ -220,7 +228,7 @@ b{
 	font-size: 20px;
 }
 #passing {
-    border: 1px solid black;
+    /*border: 1px solid black;*/
     height: 30px;
     width: 500px;
     text-align: center;
@@ -232,7 +240,7 @@ b{
     font-weight: 100;
 }
 #playedStatus {
-    border: 1px solid black;
+    /*border: 1px solid black;*/
     height: 30px;
     width: 761px;
     margin: auto;
@@ -242,4 +250,9 @@ b{
     left: 445px;
     font-size: x-large;
     font-weight: 100;
+}
+img {
+    width: 100%; /* or any custom size */
+    height: 100%; 
+    object-fit: contain;
 }
