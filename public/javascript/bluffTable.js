@@ -23,7 +23,6 @@ var generateHandCard = function(cards){
 	return handedCards.map(function(singleCard){
 		var rank = singleCard.name;
 		var suit = singleCard.suit;
-	console.log(unicodeOfCards(suit,rank));
 		return '<div id ="'+singleCard.id + '"class = "playerCard">'
 		+ unicodeOfCards(suit,rank)+'</div>';
 	});
@@ -63,9 +62,9 @@ var getCardStatus = function(playerName){
 		opponent2.div = "opponent2";
 		var ownPlayer = status[0];
 		ownPlayer.div = "ownPlayer";
-		$('.opponent1').html( opponent1.name +"	 "+opponent1.noOfCards+'   cards');
-		$('.opponent2').html( opponent2.name +"	   "+ opponent2.noOfCards+'   cards');
-		$('.ownPlayer').html(ownPlayer.name +"    "+ ownPlayer.noOfCards+' cards');
+		$('.opponent1 > .data').html( opponent1.name +"	 "+opponent1.noOfCards+'   cards');
+		$('.opponent2 > .data').html( opponent2.name +"	   "+ opponent2.noOfCards+'   cards');
+		$('.ownPlayer > .data').html(ownPlayer.name +"    "+ ownPlayer.noOfCards+' cards');
 		changeTurnColour(opponent1);
 		changeTurnColour(opponent2);
 		changeTurnColour(ownPlayer);
@@ -87,6 +86,9 @@ var giveButtonDisable = function(){
 var giveButtonAble = function(isNewRound,turnMessage){
 	if(turnMessage && isNewRound){
 		$('#listOfcardName').css("visibility","visible");
+		$('#pass').prop('disabled', false);
+	    $('#playCard').prop('disabled', false);
+	    $('#bluff').prop('disabled',false);
 	}
 	else if(isNewRound){
 		$('#selectNamedCard').prop('disabled',false);

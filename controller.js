@@ -2,6 +2,16 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var express = require('express');
 var app = express();
+var passport = require('passport'), FacebookStrategy = require('passport-facebook').Strategy;
+passport.use(new FacebookStrategy({
+    clientID: process.env.FACEBOOK_APP_ID,
+    clientSecret:process.env.FACEBOOK_APP_SECRET,
+    callbackURL: "bluff-step2k15.rhcloud.com/auth/facebook/callback"
+  },
+  function(accessToken, refreshToken, profile, done) {
+    done(null,profile);
+  })
+);
 
 app.use(express.static('./public'));
 app.use(cookieParser());
@@ -11,6 +21,10 @@ app.use(function(req,res,next){
 	req.game = games.loadGame(req);
 	next();
 })
+app.get('/auth/facebook',passport.authenticate('facebook'));
+app.get('/auth/facebook/callback',
+	passport.authenticate('facebook', { successRedirect: '/bluff.html',failureRedirect: '/' }
+));
 app.get('/update',function(req,res){
 	res.send(JSON.stringify({isStarted : req.game.isGameStarted()}));
 })
